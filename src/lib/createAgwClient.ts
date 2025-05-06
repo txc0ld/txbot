@@ -2,8 +2,11 @@ import { privateKeyToAccount } from "viem/accounts";
 import { createAbstractClient } from "@abstract-foundation/agw-client";
 import { chain } from "../const/chain.js";
 import { http } from "viem";
-import loadAgwSignerPrivateKey from "../util/loadAgwSignerPrivateKey.js";
+import loadAgwSignerPrivateKey from "./loadAgwSignerPrivateKey.js";
 
+/**
+ * Create an AGW client given a private key to submit transactions with.
+ */
 export default async function createAgwClient() {
   const privateKey = loadAgwSignerPrivateKey();
   const account = privateKeyToAccount(privateKey);
@@ -16,10 +19,3 @@ export default async function createAgwClient() {
 
   return agwClient;
 }
-
-async function main() {
-  const agwClient = await createAgwClient();
-  console.log(agwClient.account.address);
-}
-
-main();

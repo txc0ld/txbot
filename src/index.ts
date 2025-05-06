@@ -1,43 +1,9 @@
-import * as readline from "node:readline/promises";
-import dotenv from "dotenv";
-import { openai } from "@ai-sdk/openai";
-import { CoreMessage, streamText } from "ai";
-import { getWeatherTool } from "./tools/get-weather.js";
-
-dotenv.config();
-
-const terminal = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-const messages: CoreMessage[] = [];
+import "dotenv/config";
+import koalaKoinToss from "./games/koalaKoinToss.js";
 
 async function main() {
-  while (true) {
-    const userInput = await terminal.question("You: ");
-
-    messages.push({ role: "user", content: userInput });
-
-    const result = streamText({
-      model: openai("gpt-4o"),
-      messages,
-      tools: {
-        weather: getWeatherTool,
-      },
-      maxSteps: 5,
-    });
-
-    let fullResponse = "";
-    process.stdout.write("\nAssistant: ");
-    for await (const delta of result.textStream) {
-      fullResponse += delta;
-      process.stdout.write(delta);
-    }
-    process.stdout.write("\n\n");
-
-    messages.push({ role: "assistant", content: fullResponse });
-  }
+  const txHash = await koalaKoinToss();
+  console.log(txHash);
 }
 
 main().catch(console.error);

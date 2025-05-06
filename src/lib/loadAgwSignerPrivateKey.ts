@@ -1,6 +1,9 @@
 import { Address } from "viem";
 import "dotenv/config";
 
+/**
+ * Load & format the private key of the AGW signer from .env
+ */
 export default function loadAgwSignerPrivateKey(): Address {
   let privateKey = process.env.AGW_SIGNER_PRIVATE_KEY;
 
