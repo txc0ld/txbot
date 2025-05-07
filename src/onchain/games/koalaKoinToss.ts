@@ -1,7 +1,6 @@
 import { abstractTestnet } from "viem/chains";
 import { chain } from "../const/chain.js";
 import createAgwClient from "../lib/createAgwClient.js";
-import { parseEther } from "viem";
 
 const KOALA_KOIN_TOSS_CONTRACT_ADDRESS =
   chain === abstractTestnet
@@ -704,7 +703,7 @@ const KOALA_KOIN_TOSS_CONTRACT_ABI = [
 /**
  * Play a game of Koala Koin Toss
  */
-export default async function koalaKoinToss() {
+export default async function koalaKoinToss(gameId: number, betAmount: bigint) {
   const agwClient = await createAgwClient();
 
   const txHash = await agwClient.writeContract({
@@ -712,11 +711,9 @@ export default async function koalaKoinToss() {
     functionName: "koin_toss_eth",
     abi: KOALA_KOIN_TOSS_CONTRACT_ABI,
     chain,
-    args: [7],
-    value: parseEther("0.0001"),
+    args: [gameId],
+    value: betAmount,
   });
 
   console.log(txHash);
 }
-
-koalaKoinToss();

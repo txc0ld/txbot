@@ -1,9 +1,5 @@
 import "dotenv/config";
-import koalaKoinToss from "./games/koalaKoinToss.js";
 
-async function main() {
-  const txHash = await koalaKoinToss();
-  console.log(txHash);
-}
+async function main() {}
 
 main().catch(console.error);
