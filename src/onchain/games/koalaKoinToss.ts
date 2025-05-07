@@ -1,11 +1,10 @@
-import { abstractTestnet } from "viem/chains";
-import { chain } from "../const/chain.js";
-import createAgwClient from "../lib/createAgwClient.js";
+import { chain } from "../../const/chain.js";
+import createAgwClient from "../../lib/createAgwClient.js";
 
 const KOALA_KOIN_TOSS_CONTRACT_ADDRESS =
-  chain === abstractTestnet
-    ? "0x325c6E0C3477cD96a272b638bB3653cAeDB38a40"
-    : "0x325c6E0C3477cD96a272b638bB3653cAeDB38a40"; // same for now
+  //   chain === abstractTestnet
+  // ? "0x325c6E0C3477cD96a272b638bB3653cAeDB38a40"
+  "0xb629a587473f2aec4a65e4eb8707b819f7e0b919b4dd748b86be8a457d949579"; // same for now
 
 const KOALA_KOIN_TOSS_CONTRACT_ABI = [
   {

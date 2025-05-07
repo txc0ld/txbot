@@ -1,0 +1,92 @@
+import { ABSTRACT_API_ENDPOINT } from "../const/abstract-api.js";
+
+interface Token {
+  contract: string;
+  metadata: {
+    image?: string;
+  };
+  name: string;
+  symbol: string;
+  decimals: number;
+  totalSupply: string;
+}
+
+interface Amount {
+  raw: string;
+  decimal: number;
+  usd?: number;
+}
+
+interface TokenTransferData {
+  token: Token;
+  amount: Amount;
+  txHash: string;
+}
+
+interface ContractCallData {
+  tokenToAddress?: string;
+  gasPrice: string;
+  value: string;
+  txHash: string;
+  functionSelector: string;
+  token?: Token;
+  amount?: Amount;
+}
+
+interface ContractDetails {
+  contractAddress: string;
+  name: string;
+  app?: {
+    id: string;
+    name: string;
+    description: string;
+    icon: string;
+    banner: string;
+    link: string;
+    spotlight: string;
+    launched: boolean;
+  };
+}
+
+interface CallDetails {
+  contractAddress: string;
+  name: string;
+  selector: string;
+}
+
+interface Transaction {
+  type: "token_transfer" | "contract_call";
+  fromAddress: string;
+  toAddress: string;
+  timestamp: string;
+  data: TokenTransferData | ContractCallData;
+  isSpam: boolean;
+  contractDetails?: ContractDetails;
+  callDetails?: CallDetails;
+  isHidden: boolean;
+}
+
+interface TransactionsResponse {
+  transactions: Transaction[];
+  page: string;
+}
+
+export async function getLatestWalletTransactions(
+  address: string
+): Promise<Transaction[]> {
+  try {
+    const response = await fetch(
+      `${ABSTRACT_API_ENDPOINT}/user/${address}/transactions`
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data: TransactionsResponse = await response.json();
+    return data.transactions;
+  } catch (error) {
+    console.error("Error fetching wallet transactions:", error);
+    throw error;
+  }
+}

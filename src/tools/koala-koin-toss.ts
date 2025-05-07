@@ -1,8 +1,8 @@
-import { tool } from "ai";
+import { tool, type Tool } from "ai";
 import { z } from "zod";
 import koalaKoinToss from "../onchain/games/koalaKoinToss.js";
 
-export const koalaKoinTossTool = tool({
+export const koalaKoinTossTool: Tool = tool({
   description: "Play a game of Koala Koin Toss game.",
   parameters: z.object({
     gameId: z.number().describe("The game ID to play. 7 is the default game."),

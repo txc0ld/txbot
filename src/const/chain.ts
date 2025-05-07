@@ -1,3 +1,3 @@
-import { abstractTestnet } from "viem/chains";
+import { abstract } from "viem/chains";
 
-export const chain = abstractTestnet;
+export const chain = abstract;

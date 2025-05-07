@@ -1,10 +1,9 @@
-import { Address } from "viem";
 import "dotenv/config";
 
 /**
  * Load & format the private key of the AGW signer from .env
  */
-export default function loadAgwSignerPrivateKey(): Address {
+export default function loadAgwSignerPrivateKey(): `0x${string}` {
   let privateKey = process.env.AGW_SIGNER_PRIVATE_KEY;
 
   if (!privateKey) {
@@ -19,5 +18,5 @@ export default function loadAgwSignerPrivateKey(): Address {
     throw new Error("❌ AGW_SIGNER_PRIVATE_KEY is not a valid private key");
   }
 
-  return privateKey as Address;
+  return privateKey as `0x${string}`;
 }
