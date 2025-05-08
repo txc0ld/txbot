@@ -19,12 +19,15 @@ export const getPortfolioValueTool = createTool({
   logPrefix: "Portfolio Value",
 
   execute: async () => {
-    const address = await getWalletAddress();
-    const response = await fetch(
-      `${ABSTRACT_API_ENDPOINT}/user/${address}/portfolio/value/total`
-    );
-
-    const data: PortfolioValue = await response.json();
-    return data.tokenTotalValueWithoutSpam;
+    return await getPortfolioValue(await getWalletAddress());
   },
 });
+
+export async function getPortfolioValue(address: string) {
+  const response = await fetch(
+    `${ABSTRACT_API_ENDPOINT}/user/${address}/portfolio/value/total`
+  );
+
+  const data: PortfolioValue = await response.json();
+  return data.tokenTotalValueWithoutSpam;
+}

@@ -3,9 +3,7 @@ import { ABSTRACT_API_ENDPOINT } from "../../const/abstract-api.js";
 import { createTool } from "../../utils/tool-wrapper.js";
 
 interface ETHValue {
-  price: number;
-  timestamp: string;
-  change24h: number;
+  current_price: number;
 }
 
 /**
@@ -18,8 +16,12 @@ export const getCurrentETHValueTool = createTool({
   logPrefix: "ETH Value",
 
   execute: async () => {
-    const response = await fetch(`${ABSTRACT_API_ENDPOINT}/oracle/eth`);
-    const data: ETHValue = await response.json();
-    return data;
+    return await getCurrentETHValue();
   },
 });
+
+export async function getCurrentETHValue() {
+  const response = await fetch(`${ABSTRACT_API_ENDPOINT}/oracle/eth`);
+  const data: ETHValue = await response.json();
+  return data;
+}

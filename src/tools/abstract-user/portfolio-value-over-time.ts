@@ -3,13 +3,21 @@ import { ABSTRACT_API_ENDPOINT } from "../../const/abstract-api.js";
 import getWalletAddress from "../../lib/get-wallet-address.js";
 import { createTool } from "../../utils/tool-wrapper.js";
 
-interface PortfolioValuePoint {
-  timestamp: string;
-  value: number;
+export interface PortfolioValuePoint {
+  startTimestamp: number;
+  endTimestamp: number;
+  totalUsdValue: number;
 }
 
-interface PortfolioValueHistory {
-  history: PortfolioValuePoint[];
+export interface PortfolioValueHistory {
+  portfolio: {
+    "1h": {
+      portfolio: PortfolioValuePoint[];
+    };
+    "1d": {
+      portfolio: PortfolioValuePoint[];
+    };
+  };
 }
 
 /**
@@ -24,11 +32,14 @@ export const getPortfolioValueOverTimeTool = createTool({
   logPrefix: "Portfolio Value History",
 
   execute: async () => {
-    const address = await getWalletAddress();
-    const response = await fetch(
-      `${ABSTRACT_API_ENDPOINT}/user/${address}/portfolio/value/history`
-    );
-    const data: PortfolioValueHistory = await response.json();
-    return data;
+    return await getPortfolioValueHistory(await getWalletAddress());
   },
 });
+
+export async function getPortfolioValueHistory(address: string) {
+  const response = await fetch(
+    `${ABSTRACT_API_ENDPOINT}/user/${address}/portfolio/value`
+  );
+  const data: PortfolioValueHistory = await response.json();
+  return data;
+}

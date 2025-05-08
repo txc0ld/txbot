@@ -3,7 +3,7 @@ import { ABSTRACT_API_ENDPOINT } from "../../const/abstract-api.js";
 import getWalletAddress from "../../lib/get-wallet-address.js";
 import { createTool } from "../../utils/tool-wrapper.js";
 
-interface TokenBalance {
+export interface TokenBalance {
   contract: string;
   name: string;
   symbol: string;
@@ -49,11 +49,14 @@ export const getWalletBalancesTool = createTool({
   logPrefix: "Wallet Balances",
 
   execute: async () => {
-    const address = await getWalletAddress();
-    const response = await fetch(
-      `${ABSTRACT_API_ENDPOINT}/user/${address}/wallet/balances`
-    );
-    const data: WalletBalances = await response.json();
-    return data;
+    return await getWalletBalances(await getWalletAddress());
   },
 });
+
+export async function getWalletBalances(address: string) {
+  const response = await fetch(
+    `${ABSTRACT_API_ENDPOINT}/user/${address}/wallet/balances`
+  );
+  const data: WalletBalances = await response.json();
+  return data;
+}

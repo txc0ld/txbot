@@ -22,7 +22,7 @@ You will then make a decision on what to do next based on your analysis.
 ${Object.values(allTools)
   .map((tool) => `- ${tool.description}`)
   .join("\n")}
-
+ 
 ## 🧠 Your strategy:
 
 You must follow these steps in order and complete each step before moving to the next.

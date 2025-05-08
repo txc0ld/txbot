@@ -3,7 +3,7 @@ import { ABSTRACT_API_ENDPOINT } from "../../const/abstract-api.js";
 import { createTool } from "../../utils/tool-wrapper.js";
 import getWalletAddress from "../../lib/get-wallet-address.js";
 
-interface Token {
+export interface Token {
   contract: string;
   metadata: {
     image?: string;
@@ -14,19 +14,19 @@ interface Token {
   totalSupply: string;
 }
 
-interface Amount {
+export interface Amount {
   raw: string;
   decimal: number;
   usd?: number;
 }
 
-interface TokenTransferData {
+export interface TokenTransferData {
   token: Token;
   amount: Amount;
   txHash: string;
 }
 
-interface ContractCallData {
+export interface ContractCallData {
   tokenToAddress?: string;
   gasPrice: string;
   value: string;
@@ -36,7 +36,7 @@ interface ContractCallData {
   amount?: Amount;
 }
 
-interface ContractDetails {
+export interface ContractDetails {
   contractAddress: string;
   name: string;
   app?: {
@@ -51,13 +51,13 @@ interface ContractDetails {
   };
 }
 
-interface CallDetails {
+export interface CallDetails {
   contractAddress: string;
   name: string;
   selector: string;
 }
 
-interface Transaction {
+export interface Transaction {
   type: "token_transfer" | "contract_call";
   fromAddress: string;
   toAddress: string;
@@ -85,11 +85,14 @@ export const getLatestWalletTransactionsTool = createTool({
   logPrefix: "Wallet Transactions",
 
   execute: async () => {
-    const address = await getWalletAddress();
-    const response = await fetch(
-      `${ABSTRACT_API_ENDPOINT}/user/${address}/transactions`
-    );
-    const data: TransactionsResponse = await response.json();
-    return data.transactions;
+    return await getLatestTransactions(await getWalletAddress());
   },
 });
+
+export async function getLatestTransactions(address: string) {
+  const response = await fetch(
+    `${ABSTRACT_API_ENDPOINT}/user/${address}/transactions`
+  );
+  const data: TransactionsResponse = await response.json();
+  return data.transactions;
+}

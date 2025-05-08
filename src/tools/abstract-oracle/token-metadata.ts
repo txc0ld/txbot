@@ -31,11 +31,15 @@ export const getTokenMetadataTool = createTool({
   logPrefix: "Token Metadata",
 
   execute: async ({ tokenAddress }) => {
-    const response = await fetch(
-      `${ABSTRACT_API_ENDPOINT}/oracle/token/${tokenAddress}/metadata`
-    );
-
-    const data: TokenMetadata = await response.json();
-    return data;
+    return await getTokenMetadata(tokenAddress);
   },
 });
+
+export async function getTokenMetadata(tokenAddress: string) {
+  const response = await fetch(
+    `${ABSTRACT_API_ENDPOINT}/oracle/token/${tokenAddress}/metadata`
+  );
+
+  const data: TokenMetadata = await response.json();
+  return data;
+}

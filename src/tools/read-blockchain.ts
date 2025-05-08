@@ -1,8 +1,3 @@
-/**
- * Read blockchain tool uses thirdweb Nebuula to ask a naturla language query
- * regarding some information on the blockchain.
- */
-
 import { z } from "zod";
 import { Nebula } from "thirdweb/ai";
 import thirdwebClient from "../lib/thirdwebClient.js";

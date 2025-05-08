@@ -3,7 +3,7 @@ import getWalletAddress from "../../lib/get-wallet-address.js";
 import { ABSTRACT_API_ENDPOINT } from "../../const/abstract-api.js";
 import { createTool } from "../../utils/tool-wrapper.js";
 
-interface NFT {
+export interface NFT {
   tokenId: string;
   contract: string;
   name: string;
@@ -37,11 +37,14 @@ export const getWalletNFTsTool = createTool({
   logPrefix: "Wallet NFTs",
 
   execute: async () => {
-    const address = await getWalletAddress();
-    const response = await fetch(
-      `${ABSTRACT_API_ENDPOINT}/user/${address}/wallet/v2/nfts`
-    );
-    const data: WalletNFTs = await response.json();
-    return data.nfts;
+    return await getWalletNFTs(await getWalletAddress());
   },
 });
+
+export async function getWalletNFTs(address: string) {
+  const response = await fetch(
+    `${ABSTRACT_API_ENDPOINT}/user/${address}/wallet/v2/nfts`
+  );
+  const data: WalletNFTs = await response.json();
+  return data.nfts;
+}

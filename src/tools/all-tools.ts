@@ -9,7 +9,7 @@ import { getWalletBalancesTool } from "./abstract-user/wallet-token-balances.js"
 import { getWalletAddressTool } from "./abstract-user/wallet-address.js";
 import { koalaKoinTossTool } from "./koala-koin-toss.js";
 import { readBlockchainTool } from "./read-blockchain.js";
-
+import { writeTransactionTool } from "./write-transaction.js";
 export const oracleTools = {
   "get-current-eth-value": getCurrentETHValueTool,
   "get-popular-tokens": getPopularTokensTool,
@@ -27,6 +27,7 @@ export const userTools = {
 
 export const infoTools = {
   "query-blockchain": readBlockchainTool,
+  "write-transaction": writeTransactionTool,
 };
 
 export const gameTools = {

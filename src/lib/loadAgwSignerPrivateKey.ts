@@ -5,10 +5,10 @@ import "dotenv/config";
  * Checks if the private key is valid and returns it as a 0x prefixed string.
  */
 export default function loadAgwSignerPrivateKey(): `0x${string}` {
-  let privateKey = process.env.AGW_SIGNER_PRIVATE_KEY;
+  let privateKey = process.env.WALLET_PRIVATE_KEY;
 
   if (!privateKey) {
-    throw new Error("❌ AGW_SIGNER_PRIVATE_KEY is not set");
+    throw new Error("❌ WALLET_PRIVATE_KEY is not set");
   }
 
   if (!privateKey.startsWith("0x")) {
@@ -16,7 +16,7 @@ export default function loadAgwSignerPrivateKey(): `0x${string}` {
   }
 
   if (privateKey.length !== 66) {
-    throw new Error("❌ AGW_SIGNER_PRIVATE_KEY is not a valid private key");
+    throw new Error("❌ WALLET_PRIVATE_KEY is not a valid private key");
   }
 
   return privateKey as `0x${string}`;
