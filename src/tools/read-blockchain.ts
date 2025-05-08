@@ -5,9 +5,9 @@
 
 import { z } from "zod";
 import { Nebula } from "thirdweb/ai";
-import { chain } from "../const/chain.js";
 import thirdwebClient from "../lib/thirdwebClient.js";
 import { createTool } from "../utils/tool-wrapper.js";
+import { chain } from "../const/chain.js";
 
 /**
  * Use thirdweb Nebula to ask a naturla language query about the blockchain.
@@ -44,6 +44,14 @@ Examples (Research)
     const response = await Nebula.chat({
       client: thirdwebClient,
       message,
+      contextFilter: {
+        chains: [
+          {
+            id: chain.id,
+            rpc: chain.rpcUrls.default.http[0],
+          },
+        ],
+      },
     });
     return response;
   },

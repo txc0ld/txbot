@@ -1,5 +1,4 @@
-import { openai } from "@ai-sdk/openai";
-import { generateText } from "ai";
+import { generateText, streamText } from "ai";
 import dotenv from "dotenv";
 import * as readline from "node:readline/promises";
 import { allTools } from "./tools/all-tools.js";
@@ -7,6 +6,8 @@ import { systemPrompt } from "./const/system-prompt.js";
 import { logger } from "./utils/logger.js";
 import { mkdir } from "fs/promises";
 import { join } from "path";
+import { openai } from "@ai-sdk/openai";
+import { CoreMessage } from "ai";
 
 dotenv.config();
 
@@ -18,42 +19,36 @@ const terminal = readline.createInterface({
   output: process.stdout,
 });
 
+const messages: CoreMessage[] = [];
+
 async function main() {
   logger.info("Starting AI interaction session");
 
-  const userInput = await terminal.question("You: ");
-  logger.logUserInput(userInput);
+  while (true) {
+    const userInput = await terminal.question("You: ");
+    logger.logUserInput(userInput);
 
-  const result = await generateText({
-    system: systemPrompt,
-    model: openai("gpt-4o-mini"),
-    prompt: userInput,
-    tools: allTools,
-    maxSteps: 25,
-    onStepFinish: (step) => {
-      console.log(step);
-    },
-  });
+    messages.push({ role: "user", content: userInput });
 
-  const {
-    finishReason,
-    response,
-    steps,
-    text,
-    toolCalls,
-    toolResults,
-    experimental_output,
-    reasoning,
-  } = result;
+    const result = streamText({
+      system: systemPrompt,
+      model: openai("gpt-4o-mini"),
+      messages,
+      tools: allTools,
+      maxSteps: 25,
+      onStepFinish: (step) => {},
+    });
 
-  logger.logAIResponse(text);
-  logger.logToolCalls(toolCalls);
-  logger.logToolResults(toolResults);
-  logger.logReasoning(reasoning);
-  logger.logFinishReason(finishReason);
-  logger.logSteps(steps);
-  logger.logExperimentalOutput(experimental_output);
-  logger.logResponse(response);
+    let fullResponse = "";
+    process.stdout.write("\nAssistant: ");
+    for await (const delta of result.textStream) {
+      fullResponse += delta;
+      process.stdout.write(delta);
+    }
+    process.stdout.write("\n\n");
+
+    messages.push({ role: "assistant", content: fullResponse });
+  }
 }
 
 main().catch((error) => {

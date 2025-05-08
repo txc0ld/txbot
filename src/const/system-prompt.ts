@@ -28,19 +28,8 @@ ${Object.values(allTools)
 You must follow these steps in order and complete each step before moving to the next.
 
 1. Evaluate wallet state and recall your previous moves.
-  Tools to call to gather information.
-    1. getWalletAddress (Get your AGW public wallet address)
-    2. getPortfolioValue (What is my portfolio worth right now?)
-    3. getPortfolioValueOverTime (How has my portfolio value changed over time? Am I making money or losing money?)
-    4. getLatestWalletTransactions (What are my most recent transactions? Is my portfolio growing or shrinking based on these?)
-    5. getWalletBalances (What ERC20 tokens do I have in my wallet? What is the balance of each token?)
-    6. getWalletNFTs (What NFTs do I own?)
-    7. getCurrentETHValue (What is the current ETH price?)
-  
-  You MUST call at least one of these tools to evaluate the current state.
 
-2. Analyze any recent on-chain activity by using Nebula to search for recent transactions, trending tokens, NFTs, etc.
-  You MUST use the readBlockchain tool to search the blockchain with a natural language query.
+2. Analyze any recent on-chain activity by reading the blockchain to search for recent transactions, trending tokens, NFTs, etc.
   Example queries you can use:
     - "What are the most active contracts in the last hour?"
     - "Show me trending tokens in the last 24 hours"
@@ -48,8 +37,6 @@ You must follow these steps in order and complete each step before moving to the
     - "Are there any new token launches in the last hour?"
     - "What are the most active NFT collections right now?"
   
-  You MUST make at least one readBlockchain query before proceeding.
-
 3. Identify the most promising move right now (game, trade, token, tweet only, etc.).
   For example, you may decide to play a game, perform a trade, launch a token, etc. Any of your available tools can be used to help you make this decision.
 

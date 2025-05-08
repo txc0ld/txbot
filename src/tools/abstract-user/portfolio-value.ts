@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { ABSTRACT_API_ENDPOINT } from "../../const/abstract-api.js";
 import { createTool } from "../../utils/tool-wrapper.js";
+import getWalletAddress from "../../lib/get-wallet-address.js";
 
 interface PortfolioValue {
   totalValue: number;
@@ -14,14 +15,11 @@ interface PortfolioValue {
 export const getPortfolioValueTool = createTool({
   description:
     "Get the total portfolio value for a wallet from the Abstract Portal API.",
-  parameters: z.object({
-    address: z
-      .string()
-      .describe("The wallet address to get portfolio value for"),
-  }),
+  parameters: z.object({}),
   logPrefix: "Portfolio Value",
 
-  execute: async ({ address }) => {
+  execute: async () => {
+    const address = await getWalletAddress();
     const response = await fetch(
       `${ABSTRACT_API_ENDPOINT}/user/${address}/portfolio/value/total`
     );

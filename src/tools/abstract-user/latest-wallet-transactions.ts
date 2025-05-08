@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { ABSTRACT_API_ENDPOINT } from "../../const/abstract-api.js";
 import { createTool } from "../../utils/tool-wrapper.js";
+import getWalletAddress from "../../lib/get-wallet-address.js";
 
 interface Token {
   contract: string;
@@ -80,12 +81,11 @@ interface TransactionsResponse {
 export const getLatestWalletTransactionsTool = createTool({
   description:
     "Get the latest transactions for a wallet from the Abstract Portal API.",
-  parameters: z.object({
-    address: z.string().describe("The wallet address to get transactions for"),
-  }),
+  parameters: z.object({}),
   logPrefix: "Wallet Transactions",
 
-  execute: async ({ address }) => {
+  execute: async () => {
+    const address = await getWalletAddress();
     const response = await fetch(
       `${ABSTRACT_API_ENDPOINT}/user/${address}/transactions`
     );
