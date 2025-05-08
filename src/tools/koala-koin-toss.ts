@@ -7,6 +7,10 @@ import {
 } from "../const/contracts/koala-koin-toss.js";
 import { createTool } from "../utils/tool-wrapper.js";
 
+/**
+ * Play a game of Koala Koin Toss.
+ * Returns the transaction hash of the bet.
+ */
 export const koalaKoinTossTool = createTool({
   description: "Play a game of Koala Koin Toss game.",
   parameters: z.object({

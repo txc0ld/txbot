@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { ABSTRACT_API_ENDPOINT } from "../const/abstract-api.js";
-import { createTool } from "../utils/tool-wrapper.js";
+import { ABSTRACT_API_ENDPOINT } from "../../const/abstract-api.js";
+import { createTool } from "../../utils/tool-wrapper.js";
 
 interface Token {
   contract: string;
@@ -73,6 +73,10 @@ interface TransactionsResponse {
   page: string;
 }
 
+/**
+ * Get the latest transactions for a wallet from the Abstract Portal API.
+ * Returns an array of transactions.
+ */
 export const getLatestWalletTransactionsTool = createTool({
   description:
     "Get the latest transactions for a wallet from the Abstract Portal API.",

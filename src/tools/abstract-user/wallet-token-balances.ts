@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { ABSTRACT_API_ENDPOINT } from "../const/abstract-api.js";
-import getWalletAddress from "../lib/get-wallet-address.js";
-import { createTool } from "../utils/tool-wrapper.js";
+import { ABSTRACT_API_ENDPOINT } from "../../const/abstract-api.js";
+import getWalletAddress from "../../lib/get-wallet-address.js";
+import { createTool } from "../../utils/tool-wrapper.js";
 
 interface TokenBalance {
   contract: string;
@@ -38,6 +38,10 @@ interface WalletBalances {
   page: string;
 }
 
+/**
+ * Get the token balances for the agent's wallet from the Abstract Portal API.
+ * Returns an array of token balances containing contract, name, symbol, decimals, balance, usdPrice, usdValue, usdPriceChange, isSpam, verificationStatus, contractVerified, and metadata.
+ */
 export const getWalletBalancesTool = createTool({
   description:
     "Get the token balances for the agent's wallet from the Abstract Portal API.",

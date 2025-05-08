@@ -1,7 +1,7 @@
 import createAgwClient from "./createAgwClient.js";
 
 /**
- * Get the address of the agents AGW wallet
+ * Get the wallet address of the agent's AGW wallet.
  */
 export default async function getWalletAddress(): Promise<`0x${string}`> {
   const agwClient = await createAgwClient();

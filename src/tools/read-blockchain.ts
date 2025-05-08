@@ -9,6 +9,10 @@ import { chain } from "../const/chain.js";
 import thirdwebClient from "../lib/thirdwebClient.js";
 import { createTool } from "../utils/tool-wrapper.js";
 
+/**
+ * Use thirdweb Nebula to ask a naturla language query about the blockchain.
+ * Returns a text response from the LLM after querying the blockchain.
+ */
 export const readBlockchainTool = createTool({
   description: `Query some information from the blockchain using natural language.
 

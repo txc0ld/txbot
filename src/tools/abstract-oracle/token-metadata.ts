@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { ABSTRACT_API_ENDPOINT } from "../const/abstract-api.js";
-import { createTool } from "../utils/tool-wrapper.js";
+import { ABSTRACT_API_ENDPOINT } from "../../const/abstract-api.js";
+import { createTool } from "../../utils/tool-wrapper.js";
 
 interface TokenMetadata {
   address: string;
@@ -14,6 +14,10 @@ interface TokenMetadata {
   change24h?: number;
 }
 
+/**
+ * Get metadata for a specific token from the Abstract Portal API.
+ * Returns an object containing address, symbol, name, decimals, chainId, price, marketCap, volume24h, and change24h.
+ */
 export const getTokenMetadataTool = createTool({
   description:
     "Get metadata for a specific token from the Abstract Portal API.",

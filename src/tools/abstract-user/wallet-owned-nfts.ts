@@ -1,7 +1,7 @@
 import { z } from "zod";
-import getWalletAddress from "../lib/get-wallet-address.js";
-import { ABSTRACT_API_ENDPOINT } from "../const/abstract-api.js";
-import { createTool } from "../utils/tool-wrapper.js";
+import getWalletAddress from "../../lib/get-wallet-address.js";
+import { ABSTRACT_API_ENDPOINT } from "../../const/abstract-api.js";
+import { createTool } from "../../utils/tool-wrapper.js";
 
 interface NFT {
   tokenId: string;
@@ -26,6 +26,10 @@ interface WalletNFTs {
   page: string;
 }
 
+/**
+ * Get the NFTs owned by the agent's wallet from the Abstract Portal API.
+ * Returns an array of NFTs containing tokenId, contract, name, description, imageUrl, collection, and metadata.
+ */
 export const getWalletNFTsTool = createTool({
   description:
     "Get the NFTs owned by the agent's wallet from the Abstract Portal API.",

@@ -1,12 +1,16 @@
 import { z } from "zod";
-import { ABSTRACT_API_ENDPOINT } from "../const/abstract-api.js";
-import { createTool } from "../utils/tool-wrapper.js";
+import { ABSTRACT_API_ENDPOINT } from "../../const/abstract-api.js";
+import { createTool } from "../../utils/tool-wrapper.js";
 
 interface PortfolioValue {
   totalValue: number;
   tokenTotalValueWithoutSpam: number;
 }
 
+/**
+ * Get the total portfolio value for a wallet from the Abstract Portal API.
+ * Returns the total value and the value of the portfolio excluding spam tokens.
+ */
 export const getPortfolioValueTool = createTool({
   description:
     "Get the total portfolio value for a wallet from the Abstract Portal API.",

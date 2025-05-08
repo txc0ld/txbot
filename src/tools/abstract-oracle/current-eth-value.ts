@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { ABSTRACT_API_ENDPOINT } from "../const/abstract-api.js";
-import { createTool } from "../utils/tool-wrapper.js";
+import { ABSTRACT_API_ENDPOINT } from "../../const/abstract-api.js";
+import { createTool } from "../../utils/tool-wrapper.js";
 
 interface ETHValue {
   price: number;
@@ -8,6 +8,10 @@ interface ETHValue {
   change24h: number;
 }
 
+/**
+ * Get the current USD value of ETH using the Abstract Portal API.
+ * Returns the price, timestamp, and 24 hour change in price.
+ */
 export const getCurrentETHValueTool = createTool({
   description: "Get the current ETH value from the Abstract Portal API.",
   parameters: z.object({}),
@@ -15,7 +19,7 @@ export const getCurrentETHValueTool = createTool({
 
   execute: async () => {
     const response = await fetch(`${ABSTRACT_API_ENDPOINT}/oracle/eth`);
-    const data = await response.json();
+    const data: ETHValue = await response.json();
     return data;
   },
 });

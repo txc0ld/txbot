@@ -1,7 +1,8 @@
 import { createThirdwebClient } from "thirdweb";
 
 /**
- * Create a Thirdweb client
+ * Create a Thirdweb client - used for Nebula
+ * Requires a client ID and secret key from Thirdweb in .env
  */
 const client = createThirdwebClient({
   clientId: process.env.THIRDWEB_CLIENT_ID!,

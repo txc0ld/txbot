@@ -2,6 +2,7 @@ import "dotenv/config";
 
 /**
  * Load & format the private key of the AGW signer from .env
+ * Checks if the private key is valid and returns it as a 0x prefixed string.
  */
 export default function loadAgwSignerPrivateKey(): `0x${string}` {
   let privateKey = process.env.AGW_SIGNER_PRIVATE_KEY;
