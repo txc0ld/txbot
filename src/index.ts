@@ -1,24 +1,18 @@
 import { streamText } from "ai";
 import dotenv from "dotenv";
-import * as readline from "node:readline/promises";
 import { allTools } from "./tools/all-tools.js";
 import { systemPrompt } from "./const/system-prompt.js";
-import { logger } from "./utils/logger.js";
 import { mkdir } from "fs/promises";
 import { join } from "path";
 import { openai } from "@ai-sdk/openai";
 import { CoreMessage } from "ai";
 import { createUserPrompt } from "./prompt/createUserPrompt.js";
+import { google } from "@ai-sdk/google";
 
 dotenv.config();
 
 // Ensure logs directory exists
 await mkdir(join(process.cwd(), "logs"), { recursive: true });
-
-const terminal = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
 
 const messages: CoreMessage[] = [];
 
@@ -32,10 +26,11 @@ async function main() {
       // Step b: Get AI response (The LLM responds back to the User/ this program)
       const result = streamText({
         system: systemPrompt,
-        model: openai("gpt-4o-mini"),
+        model: google("gemini-2.5-flash-preview-04-17"),
         messages,
         tools: allTools,
-        maxSteps: 25,
+        maxSteps: 10,
+        // toolChoice:   "required",
       });
 
       // Step c: Process AI response (The Agent's suggested actions)
@@ -45,59 +40,39 @@ async function main() {
         fullResponse += delta;
         process.stdout.write(delta);
       }
+
+      console.log(await result.toolCalls);
+      console.log(await result.toolResults);
+
       process.stdout.write("\n\n");
 
-      // Log tool calls and results
-      console.log("Tool Calls:", await result.toolCalls);
-      console.log("Tool Results:", await result.toolResults);
       messages.push({ role: "assistant", content: fullResponse });
 
-      // Step d: Create evaluator prompt and get execution decision
-      const evaluatorPrompt = `
-You are an evaluator for an AI agent's decisions. Your job is to:
-
-1. Review the agent's suggested actions below
-2. Validate if the actions are safe and appropriate
-3. Execute the actions if they pass validation
-
-The agent's response:
-${fullResponse}
-
-Please evaluate this response and execute any valid actions. If you find any issues, explain why and suggest alternatives.
-`;
-
-      const evaluationResult = streamText({
-        system: systemPrompt,
-        model: openai("gpt-4o-mini"),
-        messages: [...messages, { role: "user", content: evaluatorPrompt }],
-        tools: allTools,
-        maxSteps: 25,
-      });
-
-      // Step e: Process evaluator's response and execute actions
-      let evaluationResponse = "";
-      process.stdout.write("\nEvaluator: ");
-      for await (const delta of evaluationResult.textStream) {
-        evaluationResponse += delta;
-        process.stdout.write(delta);
-      }
-      process.stdout.write("\n\n");
-
-      // Log evaluator's tool calls and results
-      console.log("Evaluator Tool Calls:", await evaluationResult.toolCalls);
-      console.log(
-        "Evaluator Tool Results:",
-        await evaluationResult.toolResults
-      );
-
-      // Step f: Wait for blockchain state to update
-      await new Promise((resolve) => setTimeout(resolve, 5000)); // 5 second delay
+      // Step d: Wait for blockchain state to update
+      await new Promise((resolve) => setTimeout(resolve, 300000)); // 5 minutes delay
     } catch (error) {
-      console.error(error);
+      console.error("Error in main loop:", error);
+      if (error instanceof Error) {
+        console.error("Error details:", {
+          message: error.message,
+          stack: error.stack,
+          name: error.name,
+        });
+      }
+      // Add a small delay before retrying to prevent rapid error loops
+      await new Promise((resolve) => setTimeout(resolve, 5000));
     }
   }
 }
 
 main().catch((error) => {
-  console.error(error);
+  console.error("Fatal error in main process:", error);
+  if (error instanceof Error) {
+    console.error("Error details:", {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+    });
+  }
+  process.exit(1); // Exit with error code
 });

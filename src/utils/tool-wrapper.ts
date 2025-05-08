@@ -20,12 +20,13 @@ export function createTool<TInput, TOutput>({
     parameters,
     execute: async (params: TInput) => {
       try {
-        logger.info(`${logPrefix} - Starting`, params);
+        console.log(`${logPrefix} - Starting`, params);
         const result = await execute(params);
-        logger.info(`${logPrefix} - Completed`, { result });
+        console.log(`${logPrefix} - Completed`, result);
         return result;
       } catch (error: any) {
-        logger.error(`${logPrefix} - Failed`);
+        console.error(`${logPrefix} - Failed`);
+        console.error(error);
         throw error;
       }
     },

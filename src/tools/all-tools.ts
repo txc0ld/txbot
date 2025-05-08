@@ -8,13 +8,17 @@ import { getWalletNFTsTool } from "./abstract-user/wallet-owned-nfts.js";
 import { getWalletBalancesTool } from "./abstract-user/wallet-token-balances.js";
 import { getWalletAddressTool } from "./abstract-user/wallet-address.js";
 import { koalaKoinTossTool } from "./koala-koin-toss.js";
-import { readBlockchainTool } from "./read-blockchain.js";
 import { writeTransactionTool } from "./write-transaction.js";
+import { readBlockchainTool } from "./read-blockchain.js";
 
 export const oracleTools = {
   "get-current-eth-value": getCurrentETHValueTool,
   "get-popular-tokens": getPopularTokensTool,
   "get-token-metadata": getTokenMetadataTool,
+};
+
+export const gameTools = {
+  "play-koala-koin-toss": koalaKoinTossTool,
 };
 
 export const userTools = {
@@ -27,17 +31,13 @@ export const userTools = {
 };
 
 export const infoTools = {
-  "query-blockchain": readBlockchainTool,
-  "write-transaction": writeTransactionTool,
-};
-
-export const gameTools = {
-  "koala-koin-toss": koalaKoinTossTool,
+  // "query-blockchain": readBlockchainTool,
+  // "write-transaction": writeTransactionTool,
 };
 
 export const allTools = {
   ...oracleTools,
+  ...gameTools,
   ...userTools,
   ...infoTools,
-  ...gameTools,
 };

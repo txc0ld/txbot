@@ -6,6 +6,7 @@ import {
   KOALA_KOIN_TOSS_CONTRACT_ABI,
 } from "../const/contracts/koala-koin-toss.js";
 import { createTool } from "../utils/tool-wrapper.js";
+import { parseEther } from "viem";
 
 /**
  * Play a game of Koala Koin Toss.
@@ -16,12 +17,15 @@ export const koalaKoinTossTool = createTool({
   parameters: z.object({
     gameId: z.number().describe("The game ID to play. 7 is the default game."),
     betAmount: z
-      .bigint()
-      .describe("The amount to bet. 0.0001 ETH is the default bet amount."),
+      .number()
+      .describe(
+        "The amount of ETH to bet in number format. Either 0.002, 0.004, 0.008, or 0.016."
+      ),
   }),
   logPrefix: "Koala Koin Toss",
 
   execute: async ({ gameId, betAmount }) => {
+    console.log("Playing Koala Koin Toss game...");
     const agwClient = await createAgwClient();
     const txHash = await agwClient.writeContract({
       address: KOALA_KOIN_TOSS_CONTRACT_ADDRESS,
@@ -29,7 +33,7 @@ export const koalaKoinTossTool = createTool({
       abi: KOALA_KOIN_TOSS_CONTRACT_ABI,
       chain,
       args: [gameId],
-      value: betAmount,
+      value: parseEther(betAmount.toString()),
     });
     return txHash;
   },

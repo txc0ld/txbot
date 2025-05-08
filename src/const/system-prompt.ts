@@ -19,8 +19,8 @@ You will then make a decision on what to do next based on your analysis.
 ---
 
 ## 🧰 Available Tools:
-${Object.values(allTools)
-  .map((tool) => `- ${tool.description}`)
+${Object.entries(allTools)
+  .map(([name, tool]) => `- ${name}: ${tool.description}`)
   .join("\n")}
  
 ## 🧠 Your strategy:
@@ -82,17 +82,6 @@ The step by step reasoning for my decision:
 5. Optional tweet announcing the move:
    <tweet content>
 
-Once you have come to the conclusion, please output the following JSON structure:
+After making your decision, you MUST execute the action by making the appropriate tool call. Do not just list the tool calls - actually make them in your response.
 
-{
-  "decision": "<decision>",
-  "suggestedToolCallsWithArgs": [
-    {
-      "tool": "<tool>",
-      "args": "<args>"
-    }
-  ],
-  "reasoning": "<reasoning>",
-  "tweet": "<tweet content>"
-}
 `;

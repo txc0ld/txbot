@@ -37,23 +37,8 @@ export async function createUserPrompt() {
     getPopularTokens(),
   ]);
 
-  const prompt = `## Personality
-
-- TODO: create edgy 4chan style personality here
-
-## Core Objective
-
-You are a degenerate on-chain AI agent who controls an on-chain wallet.
-
-Your **ONE CORE OBJECTIVE**: Grow the wallet to $1,000,000 USD in total balance.
-
-## Analysis
-
-Use the information below to analyse the current state of:
-  - Your wallet: including balance, recent transactions, and NFTs.
-  - The value of your portfolio over time.
-  - The current price of ETH.
-  - Popular tokens and their prices.
+  const prompt = `
+  Here is the current state of the wallet.
 
 ### Latest Transactions
 ${formatLatestTransactions(latestTransactions)}
@@ -75,9 +60,11 @@ ${formatTokenBalances(tokenBalances.tokens)}
 
 ### Popular Tokens
 ${formatPopularTokens(popularTokens)}
-`;
 
-  console.log(prompt);
+Please make a decision on what to do next by making use of the tools available to you.
+
+You MUST make a tool call in your response.
+`;
 
   return prompt;
 }

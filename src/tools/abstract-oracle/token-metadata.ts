@@ -20,7 +20,7 @@ interface TokenMetadata {
  */
 export const getTokenMetadataTool = createTool({
   description:
-    "Get metadata for a specific token from the Abstract Portal API.",
+    "Get metadata and price information (such as price, market cap, volume, and change) for a specific token from the Abstract Portal API.",
   parameters: z.object({
     tokenAddress: z
       .string()
