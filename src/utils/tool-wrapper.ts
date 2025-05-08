@@ -25,10 +25,7 @@ export function createTool<TInput, TOutput>({
         logger.info(`${logPrefix} - Completed`, { result });
         return result;
       } catch (error: any) {
-        logger.error(`${logPrefix} - Failed`, {
-          error: error?.message || "Unknown error",
-          params,
-        });
+        logger.error(`${logPrefix} - Failed`);
         throw error;
       }
     },

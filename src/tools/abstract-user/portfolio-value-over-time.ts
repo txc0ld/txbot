@@ -17,6 +17,18 @@ export interface PortfolioValueHistory {
     "1d": {
       portfolio: PortfolioValuePoint[];
     };
+    "7d": {
+      portfolio: PortfolioValuePoint[];
+    };
+    "30d": {
+      portfolio: PortfolioValuePoint[];
+    };
+    "1y": {
+      portfolio: PortfolioValuePoint[];
+    };
+    all: {
+      portfolio: PortfolioValuePoint[];
+    };
   };
 }
 
@@ -36,10 +48,19 @@ export const getPortfolioValueOverTimeTool = createTool({
   },
 });
 
-export async function getPortfolioValueHistory(address: string) {
+export async function getPortfolioValueHistory(
+  address: string
+): Promise<PortfolioValueHistory> {
   const response = await fetch(
     `${ABSTRACT_API_ENDPOINT}/user/${address}/portfolio/value`
   );
+
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch portfolio value history: ${response.statusText}`
+    );
+  }
+
   const data: PortfolioValueHistory = await response.json();
   return data;
 }
