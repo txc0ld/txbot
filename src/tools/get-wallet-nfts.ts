@@ -1,4 +1,7 @@
+import { z } from "zod";
+import getWalletAddress from "../lib/get-wallet-address.js";
 import { ABSTRACT_API_ENDPOINT } from "../const/abstract-api.js";
+import { createTool } from "../utils/tool-wrapper.js";
 
 interface NFT {
   tokenId: string;
@@ -23,20 +26,18 @@ interface WalletNFTs {
   page: string;
 }
 
-export async function getWalletNFTs(address: string): Promise<WalletNFTs> {
-  try {
+export const getWalletNFTsTool = createTool({
+  description:
+    "Get the NFTs owned by the agent's wallet from the Abstract Portal API.",
+  parameters: z.object({}),
+  logPrefix: "Wallet NFTs",
+
+  execute: async () => {
+    const address = await getWalletAddress();
     const response = await fetch(
       `${ABSTRACT_API_ENDPOINT}/user/${address}/wallet/v2/nfts`
     );
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
     const data: WalletNFTs = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching wallet NFTs:", error);
-    throw error;
-  }
-}
+    return data.nfts;
+  },
+});

@@ -1,4 +1,7 @@
+import { z } from "zod";
 import { ABSTRACT_API_ENDPOINT } from "../const/abstract-api.js";
+import getWalletAddress from "../lib/get-wallet-address.js";
+import { createTool } from "../utils/tool-wrapper.js";
 
 interface TokenBalance {
   contract: string;
@@ -35,24 +38,18 @@ interface WalletBalances {
   page: string;
 }
 
-export async function getWalletBalances(
-  address: string
-): Promise<WalletBalances> {
-  try {
+export const getWalletBalancesTool = createTool({
+  description:
+    "Get the token balances for the agent's wallet from the Abstract Portal API.",
+  parameters: z.object({}),
+  logPrefix: "Wallet Balances",
+
+  execute: async () => {
+    const address = await getWalletAddress();
     const response = await fetch(
       `${ABSTRACT_API_ENDPOINT}/user/${address}/wallet/balances`
     );
-
-    if (!response.ok) {
-      console.error("Error fetching wallet balances:", response);
-
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
     const data: WalletBalances = await response.json();
     return data;
-  } catch (error) {
-    console.error("Error fetching wallet balances:", error);
-    throw error;
-  }
-}
+  },
+});

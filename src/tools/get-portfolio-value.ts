@@ -9,19 +9,20 @@ interface PortfolioValue {
 
 export const getPortfolioValueTool = createTool({
   description:
-    "Get the balance of a wallet (in USD) from the Abstract Portal API.",
+    "Get the total portfolio value for a wallet from the Abstract Portal API.",
   parameters: z.object({
     address: z
       .string()
-      .describe("The address of the wallet to get the balance for."),
+      .describe("The wallet address to get portfolio value for"),
   }),
-  logPrefix: "Portfolio Balance",
+  logPrefix: "Portfolio Value",
 
   execute: async ({ address }) => {
     const response = await fetch(
       `${ABSTRACT_API_ENDPOINT}/user/${address}/portfolio/value/total`
     );
+
     const data: PortfolioValue = await response.json();
-    return data;
+    return data.tokenTotalValueWithoutSpam;
   },
 });
