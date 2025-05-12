@@ -1,12 +1,16 @@
 import { streamText } from "ai";
 import dotenv from "dotenv";
 import { allTools } from "./tools/all-tools.js";
-import { mkdir } from "fs/promises";
+import { mkdir, writeFile } from "fs/promises";
 import { join } from "path";
 import { openai } from "@ai-sdk/openai";
 import { CoreMessage } from "ai";
 import { google } from "@ai-sdk/google";
 import createUserPrompt, { systemPrompt } from "./prompt/prompts.js";
+import {
+  twitterSystemPrompt,
+  twitterUserPrompt,
+} from "./prompt/twitterPrompts.js";
 
 dotenv.config();
 
@@ -14,6 +18,44 @@ dotenv.config();
 await mkdir(join(process.cwd(), "logs"), { recursive: true });
 
 const messages: CoreMessage[] = [];
+const twitterMessages: CoreMessage[] = [];
+
+async function processTradeDecisionToTweet(
+  tradeDecision: string
+): Promise<string> {
+  try {
+    twitterMessages.push({ role: "system", content: twitterSystemPrompt });
+    twitterMessages.push({
+      role: "user",
+      content: `${twitterUserPrompt}
+<trade_decision>
+${tradeDecision}
+</trade_decision>
+
+Your Tweet:
+`,
+    });
+
+    const tweetResult = streamText({
+      model: google("gemini-2.5-flash-preview-04-17"),
+      messages: twitterMessages,
+    });
+
+    let tweetContent = "";
+    console.log("\nGenerating tweet...");
+    for await (const delta of tweetResult.textStream) {
+      tweetContent += delta;
+    }
+
+    console.log("\nTweet generated:");
+    console.log(tweetContent);
+
+    return tweetContent;
+  } catch (error) {
+    console.error("Error generating tweet:", error);
+    return "Error generating tweet";
+  }
+}
 
 async function main() {
   try {
@@ -40,6 +82,8 @@ async function main() {
     process.stdout.write("\n\n");
 
     messages.push({ role: "assistant", content: fullResponse });
+
+    await processTradeDecisionToTweet(fullResponse);
   } catch (error) {
     console.error("Error in main loop:", error);
   }
