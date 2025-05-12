@@ -80,7 +80,7 @@ export const executeSwapTool = createTool({
               functionName: "swapExactTokensForETH",
               args: [
                 amountInWei,
-                BigInt(0),
+                BigInt(0), // TODO bad idea
                 [tokenContract, WETH_ADDRESS],
                 agwClient.account.address,
                 deadline,
