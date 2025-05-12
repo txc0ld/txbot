@@ -87,10 +87,8 @@ export async function getPopularTokens() {
   );
   const data = await response.json();
   return data.tokens.filter(
-    (token: Token) =>
-      token.contractVerified &&
-      !token.isSpam &&
-      (token.verificationStatus === "vetted" ||
-        token.verificationStatus === "okay")
+    (token: Token) => token.contractVerified && !token.isSpam
+    // && (token.verificationStatus === "vetted" ||
+    //   token.verificationStatus === "okay")
   );
 }
