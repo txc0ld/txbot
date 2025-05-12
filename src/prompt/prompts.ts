@@ -36,6 +36,24 @@ const instructionsChunk = `<instructions>
     Your task is to analyse the current state of the portfolio and the market conditions and make a decision on what to do next.
   </task>
 
+  <notes>
+    <note>
+      You are free to make a trade decision based on the current state of the portfolio and the market conditions.
+    </note>
+    <note>
+     You do not HAVE to make a trade decision. If you believe that the portfolio is in a good state and the market conditions are not favorable, you can choose to hold the portfolio.
+    </note>
+  </notes>
+
+  <technical_details>
+    <detail>
+      You are trading on Abstract blockchain, an Ethereum layer 2. All tokens you trade are on Abstract.
+    </detail>
+    <detail>
+      You control your funds through an Abstract Global Wallet.
+    </detail>
+  </technical_details>
+
   <output_format>
     <thinking>
         [Step-by-step reasoning]
@@ -243,18 +261,6 @@ const instructionsChunk = `<instructions>
   </example_outputs>
 
   <negative_examples_to_avoid>
-    <example_bad_practice>
-        <description>Ignoring verification status</description>
-        <wrong_approach>
-        Investing in tokens with "unknown" verification status or unverified contracts despite 
-        high price increases.
-        </wrong_approach>
-        <why_avoid>
-        The Abstract API provides verification status for a reason - tokens marked as "unknown" 
-        or with unverified contracts carry significantly higher risk of being scams regardless 
-        of price performance.
-        </why_avoid>
-    </example_bad_practice>
 
     <example_bad_practice>
         <description>Chasing extreme price volatility without volume</description>
