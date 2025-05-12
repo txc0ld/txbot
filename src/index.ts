@@ -1,7 +1,6 @@
 import { streamText } from "ai";
 import dotenv from "dotenv";
-import { allTools } from "./tools/all-tools.js";
-import { mkdir, writeFile } from "fs/promises";
+import { mkdir } from "fs/promises";
 import { join } from "path";
 import { openai } from "@ai-sdk/openai";
 import { CoreMessage } from "ai";
@@ -11,6 +10,12 @@ import {
   twitterSystemPrompt,
   twitterUserPrompt,
 } from "./prompt/twitterPrompts.js";
+import {
+  executorSystemPrompt,
+  executorUserPrompt,
+} from "./prompt/executorPrompts.js";
+import postTweet from "./tools/twitter/post-tweet.js";
+import { executeSwapTool } from "./tools/execute-swap.js";
 
 dotenv.config();
 
@@ -18,7 +23,45 @@ dotenv.config();
 await mkdir(join(process.cwd(), "logs"), { recursive: true });
 
 const messages: CoreMessage[] = [];
+const executorMessages: CoreMessage[] = [];
 const twitterMessages: CoreMessage[] = [];
+
+async function processTradeDecisionToExecution(
+  tradeDecision: string
+): Promise<string> {
+  try {
+    executorMessages.push({ role: "system", content: executorSystemPrompt });
+    executorMessages.push({
+      role: "user",
+      content: `${executorUserPrompt}
+${tradeDecision}
+`,
+    });
+
+    const executorResult = streamText({
+      model: openai("gpt-4o-mini"),
+      messages: executorMessages,
+      tools: {
+        executeSwapTool,
+      },
+      maxSteps: 3,
+    });
+
+    let fullResponse = "";
+    console.log("\nProcessing trade decision for execution...");
+    for await (const delta of executorResult.textStream) {
+      fullResponse += delta;
+      process.stdout.write(delta);
+    }
+
+    process.stdout.write("\n\n");
+
+    return `${fullResponse}\n\n${tradeDecision}`;
+  } catch (error) {
+    console.error("Error processing trade decision:", error);
+    return tradeDecision;
+  }
+}
 
 async function processTradeDecisionToTweet(
   tradeDecision: string
@@ -45,6 +88,7 @@ Your Tweet:
     console.log("\nGenerating tweet...");
     for await (const delta of tweetResult.textStream) {
       tweetContent += delta;
+      process.stdout.write(delta);
     }
 
     console.log("\nTweet generated:");
@@ -83,7 +127,13 @@ async function main() {
 
     messages.push({ role: "assistant", content: fullResponse });
 
-    await processTradeDecisionToTweet(fullResponse);
+    // Step 2: Process the trade decision through the executor agent
+    const executionResult = await processTradeDecisionToExecution(fullResponse);
+
+    // Step 3: Generate tweet based on trade decision and execution result
+    const tweet = await processTradeDecisionToTweet(executionResult);
+
+    await postTweet(tweet);
   } catch (error) {
     console.error("Error in main loop:", error);
   }
