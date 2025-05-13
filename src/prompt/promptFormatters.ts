@@ -2,6 +2,7 @@ import type {
   Transaction,
   TokenTransferData,
   ContractCallData,
+  SwapData,
 } from "../tools/abstract-user/latest-wallet-transactions.js";
 import type { PortfolioValuePoint } from "../tools/abstract-user/portfolio-value-over-time.js";
 import type { NFT } from "../tools/abstract-user/wallet-owned-nfts.js";
@@ -10,47 +11,67 @@ import type { Token } from "../tools/abstract-oracle/popular-tokens.js";
 import type { PortfolioValueHistory } from "../tools/abstract-user/portfolio-value-over-time.js";
 
 export function formatLatestTransactions(transactions: Transaction[]): string {
-  if (!transactions.length) return "No recent transactions found.";
+  if (!transactions.length)
+    return "<no_transactions>No recent transactions found.</no_transactions>";
 
   return transactions
     .map((tx) => {
       const date = new Date(tx.timestamp).toLocaleString();
-      const type =
-        tx.type === "token_transfer" ? "Token Transfer" : "Contract Call";
-      const data = tx.data as TokenTransferData | ContractCallData;
-
+      let type = "";
       let details = "";
+
       if (tx.type === "token_transfer") {
-        const transferData = data as TokenTransferData;
+        type = "Token Transfer";
+        const transferData = tx.data as TokenTransferData;
         details = `
-          Amount: ${transferData.amount.decimal} ${transferData.token.symbol}
-          Token: ${transferData.token.name} (${transferData.token.contract})
-          Token Decimals: ${transferData.token.decimals}
-          Transaction Hash: ${transferData.txHash}`;
+          <amount>${transferData.amount.decimal} ${transferData.token.symbol}</amount>
+          <token>${transferData.token.name} (${transferData.token.contract})</token>
+          <decimals>${transferData.token.decimals}</decimals>
+          <tx_hash>${transferData.txHash}</tx_hash>`;
+      } else if (tx.type === "swap") {
+        type = "Swap";
+        const swapData = tx.data as SwapData;
+        details = `
+          <from_token>
+            <symbol>${swapData.fromToken.token.symbol}</symbol>
+            <name>${swapData.fromToken.token.name}</name>
+            <contract>${swapData.fromToken.token.contract}</contract>
+            <amount>${swapData.fromToken.amount.decimal}</amount>
+            <usd_value>${swapData.fromToken.amount.usd || "0"}</usd_value>
+          </from_token>
+          <to_token>
+            <symbol>${swapData.toToken.token.symbol}</symbol>
+            <name>${swapData.toToken.token.name}</name>
+            <contract>${swapData.toToken.token.contract}</contract>
+            <amount>${swapData.toToken.amount.decimal}</amount>
+            <usd_value>${swapData.toToken.amount.usd || "0"}</usd_value>
+          </to_token>
+          <tx_hash>${swapData.fromToken.txHash}</tx_hash>`;
       } else {
-        const callData = data as ContractCallData;
+        type = "Contract Call";
+        const callData = tx.data as ContractCallData;
         details = `
-          Function: ${callData.functionSelector}
-          Value: ${callData.value} ETH
-          Gas Price: ${callData.gasPrice}
-          Transaction Hash: ${callData.txHash}`;
+          <function>${callData.functionSelector || "Unknown"}</function>
+          <value>${callData.value || "0"} ETH</value>
+          <gas_price>${callData.gasPrice || "Unknown"}</gas_price>
+          <tx_hash>${callData.txHash}</tx_hash>`;
       }
 
-      return `[${date}] ${type}
-        From: ${tx.fromAddress}
-        To: ${tx.toAddress}
+      return `<transaction type="${type}" timestamp="${date}">
+        <from_address>${tx.fromAddress}</from_address>
+        <to_address>${tx.toAddress}</to_address>
         ${details}
         ${
           tx.contractDetails
-            ? `Contract: ${tx.contractDetails.name} (${tx.contractDetails.contractAddress})`
+            ? `<contract>${tx.contractDetails.name} (${tx.contractDetails.contractAddress})</contract>`
             : ""
         }
         ${
           tx.callDetails
-            ? `Call: ${tx.callDetails.name} (${tx.callDetails.selector})`
+            ? `<call>${tx.callDetails.name} (${tx.callDetails.selector})</call>`
             : ""
         }
-        ------------------------`;
+</transaction>`;
     })
     .join("\n");
 }

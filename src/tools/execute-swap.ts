@@ -9,6 +9,7 @@ import {
   ERC20_ABI,
   WETH_ADDRESS,
 } from "../const/contracts/uniswap-v2.js";
+import publicClient from "../lib/viemPublicClient.js";
 
 /**
  * Execute a swap on Uniswap V2.
@@ -31,7 +32,9 @@ export const executeSwapTool = createTool({
     const agwClient = await createAgwClient();
     const deadline = BigInt(Math.floor(Date.now() / 1000) + 60 * 20);
     const GAS_RESERVE = parseEther("0.00005");
-    const value = parseEther(ethAmount.toString()) - GAS_RESERVE;
+    const parsedAmount = parseEther(ethAmount.toString());
+    const value =
+      parsedAmount <= GAS_RESERVE ? BigInt(0) : parsedAmount - GAS_RESERVE;
     const amountInWei = parseEther(amount.toString());
 
     const slippageTolerance = 0.05; // 5%
@@ -46,7 +49,7 @@ export const executeSwapTool = createTool({
 
     if (swapType === "buy") {
       // Buy: ETH -> Token, no approval needed
-      return await agwClient.writeContract({
+      const txHash = await agwClient.writeContract({
         address: UNISWAP_V2_ROUTER_ADDRESS,
         abi: UNISWAP_V2_ROUTER_ABI,
         functionName: "swapExactETHForTokens",
@@ -59,6 +62,13 @@ export const executeSwapTool = createTool({
         value,
         chain,
       });
+
+      const tx = await publicClient.waitForTransactionReceipt({
+        hash: txHash,
+      });
+      console.log(tx);
+
+      return txHash;
     } else {
       // Sell: Token -> ETH, requires approval first
       const txHash = await agwClient.sendTransactionBatch({
@@ -89,6 +99,11 @@ export const executeSwapTool = createTool({
           },
         ],
       });
+
+      const tx = await publicClient.waitForTransactionReceipt({
+        hash: txHash,
+      });
+      console.log(tx);
 
       return txHash;
     }

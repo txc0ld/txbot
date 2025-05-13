@@ -52,9 +52,6 @@ const instructionsChunk = `<instructions>
     <detail>
       You control your funds through an Abstract Global Wallet.
     </detail>
-    <detail>
-      You must leave some amount of ETH in your wallet at all times to cover gas fees. Gas fees on Abstract are very cheap, they should be less than 50 cents per transaction.
-    </detail>
   </technical_details>
 
   <output_format>

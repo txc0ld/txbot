@@ -30,12 +30,12 @@ export const executorUserPrompt = `Your task is to parse the portfolio manager's
         This is ALWAYS the address of the token to buy or sell. It is NOT the Ethereum contract address or wallet address of the user.
       </token-contract>
       <amount>
-        The amount of the token to buy or sell in a simple number format.
+        The amount of the token (e.g. 2000) to buy or sell in a simple number format.
 
         It will be converted into a BigInt value inside the tool.
       </amount>
       <eth-amount>
-        If it is a buy, the amount of ETH to spend on the token.
+        In ETH, (e.g. 0.0001) the amount of ETH to spend buying the token.
       </eth-amount>
   </execute_swap>
 

@@ -36,6 +36,18 @@ export interface ContractCallData {
   amount?: Amount;
 }
 
+export interface TokenSwapData {
+  token: Token;
+  amount: Amount;
+  chainId: string;
+  txHash: string;
+}
+
+export interface SwapData {
+  fromToken: TokenSwapData;
+  toToken: TokenSwapData;
+}
+
 export interface ContractDetails {
   contractAddress: string;
   name: string;
@@ -58,11 +70,11 @@ export interface CallDetails {
 }
 
 export interface Transaction {
-  type: "token_transfer" | "contract_call";
+  type: "token_transfer" | "contract_call" | "swap";
   fromAddress: string;
   toAddress: string;
   timestamp: string;
-  data: TokenTransferData | ContractCallData;
+  data: TokenTransferData | ContractCallData | SwapData;
   isSpam: boolean;
   contractDetails?: ContractDetails;
   callDetails?: CallDetails;

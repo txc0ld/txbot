@@ -58,5 +58,6 @@ export async function getWalletBalances(address: string) {
     `${ABSTRACT_API_ENDPOINT}/user/${address}/wallet/balances`
   );
   const data: WalletBalances = await response.json();
+  data.tokens = data.tokens.filter((token) => token.usdValue > 0);
   return data;
 }
