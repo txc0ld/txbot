@@ -37,7 +37,17 @@ async function postTweetWithReceiptReply(
 
   const tweetOneData = await tweetOne.json();
 
+  // wait random value between 10 seconds and 42 seconds
+  const waitTime = Math.floor(Math.random() * 32) + 10;
+  console.log(`Waiting ${waitTime} seconds before posting second tweet...`);
+  await new Promise((resolve) => setTimeout(resolve, waitTime * 1000));
+
   console.log(tweetOneData?.data?.create_tweet);
+
+  // If there was no first tweet, just skip reply
+  if (!tweetOneData?.data?.create_tweet) {
+    return tweetOne;
+  }
 
   // Post Abscan link to the tweet as a reply
   const tweetTwo = await scraper.sendTweet(

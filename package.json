@@ -8,7 +8,8 @@
     "build": "tsc",
     "start": "pnpm run build && node dist/index.js",
     "dev": "tsx watch src/index.ts",
-    "check-mentions": "tsx src/check-and-reply.ts"
+    "check-mentions": "tsx src/check-and-reply.ts",
+    "start-scheduler": "pnpm run build && node dist/start.js"
   },
   "keywords": [],
   "author": "",

@@ -15,14 +15,19 @@ async function main() {
   }
 }
 
-main().catch((error) => {
-  console.error("Fatal error in main process:", error);
-  if (error instanceof Error) {
-    console.error("Error details:", {
-      message: error.message,
-      stack: error.stack,
-      name: error.name,
-    });
-  }
-  process.exit(1); // Exit with error code
-});
+// Run main function if this is the entry point
+if (import.meta.url === process.argv[1]) {
+  main().catch((error) => {
+    console.error("Fatal error in main process:", error);
+    if (error instanceof Error) {
+      console.error("Error details:", {
+        message: error.message,
+        stack: error.stack,
+        name: error.name,
+      });
+    }
+    process.exit(1); // Exit with error code
+  });
+}
+
+export { main };
