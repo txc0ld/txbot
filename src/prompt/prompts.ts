@@ -59,6 +59,9 @@ const instructionsChunk = `<instructions>
     <note>
       When you try to perform multiple swaps, currently, it breaks and is not supported. Try stick to 1 trade (either buy or sell).
     </note>
+    <note>
+      If your ETH balance is near zero, ideally you should sell some tokens to get more ETH.
+    </note>
   </notes>
 
   <recent_updates>

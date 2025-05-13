@@ -221,7 +221,9 @@ export function formatPopularTokens(tokens: Token[]): string {
   <price>${token.usdPrice.toFixed(6)}</price>
   <price_changes>
     <day_change percent="${priceChange1d.toFixed(2)}">${
-        priceChange1d > 0
+        priceChange1d === null
+          ? "NEW"
+          : priceChange1d > 0
           ? "increase"
           : priceChange1d < 0
           ? "decrease"
