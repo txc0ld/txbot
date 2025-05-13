@@ -53,6 +53,9 @@ const instructionsChunk = `<instructions>
     <note>
      You should bias towards making different trades than you did in the past. It is boring to buy the same tokens over and over.
     </note>
+    <note>
+      When you try to perform multiple swaps, currently, it breaks and is not supported. Try stick to 1 trade (either buy or sell).
+    </note>
   </notes>
 
   <recent_updates>
