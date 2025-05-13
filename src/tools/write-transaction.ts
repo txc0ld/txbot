@@ -51,11 +51,8 @@ export const writeTransactionTool = createTool({
       }),
     });
 
-    console.log(response);
-
     const data = await response.json();
 
-    console.log(data);
     await handleNebulaResponse(data);
   },
 });
@@ -108,13 +105,9 @@ async function handleNebulaResponse(response: TransactionData) {
       chain: chain,
     });
 
-    console.log("Transaction Successful:", txHash);
-
     const receipt = await publicClient.waitForTransactionReceipt({
       hash: txHash,
     });
-
-    console.log("Transaction Receipt:", receipt);
 
     return {
       message: response.message,

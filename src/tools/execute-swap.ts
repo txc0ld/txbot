@@ -63,10 +63,9 @@ export const executeSwapTool = createTool({
         chain,
       });
 
-      const tx = await publicClient.waitForTransactionReceipt({
+      await publicClient.waitForTransactionReceipt({
         hash: txHash,
       });
-      console.log(tx);
 
       return txHash;
     } else {
@@ -100,10 +99,9 @@ export const executeSwapTool = createTool({
         ],
       });
 
-      const tx = await publicClient.waitForTransactionReceipt({
+      await publicClient.waitForTransactionReceipt({
         hash: txHash,
       });
-      console.log(tx);
 
       return txHash;
     }

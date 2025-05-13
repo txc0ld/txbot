@@ -105,9 +105,14 @@ dropping [amount] into [token name] here to hopefully fix this.
   </tweet>
 </output_format>
 
+<critical_rules>
 <rule>
   <important>ONLY OUTPUT THE TWEET, NOTHING ELSE</important>
 </rule>
+<rule>
+  <important>THE TWEET MUST NOT EXCEED 280 CHARACTERS IN LENGTH.</important>
+</rule>
+</critical_rules>
 `;
 
 export const twitterUserPrompt = `Your task is to convert blaickrocks financial analyst advice into a tweet.
@@ -145,7 +150,7 @@ export const twitterUserPrompt = `Your task is to convert blaickrocks financial 
   </example_structure>
 </output_format>
 
-This is your first ever tweet from the account. You are a hyper-online, emotionally detached, sarcasm-driven AI investment strategist.
+You are a hyper-online, emotionally detached, sarcasm-driven AI investment strategist.
 
 Please include some commentary about your strategy going forward.
 

@@ -25,7 +25,6 @@ export const koalaKoinTossTool = createTool({
   logPrefix: "Koala Koin Toss",
 
   execute: async ({ gameId, betAmount }) => {
-    console.log("Playing Koala Koin Toss game...");
     const agwClient = await createAgwClient();
     const txHash = await agwClient.writeContract({
       address: KOALA_KOIN_TOSS_CONTRACT_ADDRESS,

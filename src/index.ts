@@ -56,7 +56,7 @@ ${tradeDecision}
 
     process.stdout.write("\n\n");
 
-    return `${fullResponse}\n\n${tradeDecision}`;
+    return `${fullResponse}`;
   } catch (error) {
     console.error("Error processing trade decision:", error);
     return tradeDecision;
@@ -128,12 +128,26 @@ async function main() {
     messages.push({ role: "assistant", content: fullResponse });
 
     // Step 2: Process the trade decision through the executor agent
-    const executionResult = await processTradeDecisionToExecution(fullResponse);
+    let executionResult: string | null = null;
+    try {
+      executionResult = await processTradeDecisionToExecution(fullResponse);
+    } catch (error) {
+      console.error("Error processing trade decision:", error);
+      executionResult = null;
+    }
+
+    if (
+      executionResult?.includes("CANNOT_EXECUTE") ||
+      !executionResult?.startsWith("0x")
+    ) {
+      console.log("Cannot execute trade decision");
+      executionResult = null;
+    }
 
     // Step 3: Generate tweet based on trade decision and execution result
-    const tweet = await processTradeDecisionToTweet(executionResult);
+    const tweet = await processTradeDecisionToTweet(fullResponse);
 
-    await postTweet(tweet);
+    await postTweet(tweet, executionResult as `0x${string}` | null);
   } catch (error) {
     console.error("Error in main loop:", error);
   }
