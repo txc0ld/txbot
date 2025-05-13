@@ -83,6 +83,13 @@ interface ParsedTransactionData {
   data: `0x${string}`;
 }
 
+/**
+ * This is not used in the current implementation, but could be used in the future.
+ *
+ * Handles the response from Nebula and executes the transaction.
+ * This function was going to be used to execute generic on-chain functions using thirdweb Nebula.
+ * But it was removed since I reduced the scope of the project.
+ */
 async function handleNebulaResponse(response: TransactionData) {
   if (!response.actions || response.actions.length === 0) {
     return {

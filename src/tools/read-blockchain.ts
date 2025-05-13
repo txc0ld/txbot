@@ -5,6 +5,8 @@ import { createTool } from "../utils/tool-wrapper.js";
 import { chain } from "../const/chain.js";
 
 /**
+ * This is not used in the current implementation, but could be used in the future.
+ *
  * Use thirdweb Nebula to ask a naturla language query about the blockchain.
  * Returns a text response from the LLM after querying the blockchain.
  */

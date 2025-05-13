@@ -1,5 +1,21 @@
+/**
+ * This file is the prompts for Agent #2 - The "trader" or "executor agent"
+ * It accepts the trade decision from Agent #1 (the "researcher") and actually
+ * performs the on-chain transactions by calling its execute-swap tool to
+ * make the trades via Uniswap on Abstract.
+ */
+
+/**
+ * System prompt for the executor agent.
+ * https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/system-prompts
+ */
 export const executorSystemPrompt = `You are an execution agent for a crypto trading system. Your job is to interpret trading decisions from the portfolio manager and convert them into executable trades.`;
 
+/**
+ * This prompt combines a few methods of prompt engineering:
+ * XML tags: https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-xml-tags
+ * Chain of Thought with <thinking> tags: https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/chain-of-thought
+ */
 export const executorUserPrompt = `Your task is to parse the portfolio manager's trade decision and extract the specific parameters needed to execute a swap on Uniswap.
 
 <input_format>

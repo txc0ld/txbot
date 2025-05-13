@@ -36,6 +36,7 @@ export interface PortfolioValueHistory {
  * Get the portfolio value history for the agent's wallet from the Abstract Portal API.
  * Returns an array of portfolio value points containing timestamp and value.
  * Agent can use this to evaluate how their portfolio has performed over time.
+ * This is used to inform the researcher agent about the portfolio's performance over time.
  */
 export const getPortfolioValueOverTimeTool = createTool({
   description:

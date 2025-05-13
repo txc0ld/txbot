@@ -1,7 +1,13 @@
+/**
+ * Originally, the agent was going to have additional scope and be able to play
+ * on-chain games on Abstract. This was removed to focus purely on trading.
+ * Keeping this here if we want to revisit adding this functionality.
+ */
+
 export const KOALA_KOIN_TOSS_CONTRACT_ADDRESS =
   //   chain === abstractTestnet
   // ? "0x325c6E0C3477cD96a272b638bB3653cAeDB38a40"
-  "0xcf161fac7074f678a390ee27a559e7053c183694"; // same for now
+  "0xcf161fac7074f678a390ee27a559e7053c183694";
 
 export const KOALA_KOIN_TOSS_CONTRACT_ABI = [
   {

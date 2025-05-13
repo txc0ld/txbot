@@ -29,6 +29,8 @@ interface WalletNFTs {
 /**
  * Get the NFTs owned by the agent's wallet from the Abstract Portal API.
  * Returns an array of NFTs containing tokenId, contract, name, description, imageUrl, collection, and metadata.
+ *
+ * This is not used in the current implementation, but could be used in the future.
  */
 export const getWalletNFTsTool = createTool({
   description:

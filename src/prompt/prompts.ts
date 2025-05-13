@@ -1,7 +1,3 @@
-/** System prompt just describes how the LLM should behave. */
-export const systemPrompt = `You are an expert crypto portfolio manager specializing in high-risk, high-reward investments on the Abstract blockchain. Your objective is to maximize portfolio value through strategic trading of volatile memecoins.`;
-
-// Standard imports at the top
 import {
   formatLatestTransactions,
   formatPopularTokens,
@@ -17,7 +13,18 @@ import { getPortfolioValue } from "../tools/abstract-user/portfolio-value.js";
 import { getWalletBalances } from "../tools/abstract-user/wallet-token-balances.js";
 
 /**
- * Prompt chunks
+ * System prompt for the researcher agent.
+ * https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/system-prompts
+ */
+export const systemPrompt = `You are an expert crypto portfolio manager specializing in high-risk, high-reward investments on the Abstract blockchain. Your objective is to maximize portfolio value through strategic trading of volatile memecoins.`;
+
+/**
+ * I've split up the prompt into variables so I can collapse it in VS Code / Cursor.
+ * It uses several techniques of prompt engineering:
+ * - XML Tags: https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-xml-tags
+ * - Chain of Thought: https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/chain-of-thought
+ * - Example outputs: https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/multishot-prompting
+ * - Long Context windows: https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/long-context-tips
  */
 const instructionsChunk = `<instructions>
   You are a portfolio manager of a high-risk crypto investment portfolio.
@@ -42,6 +49,9 @@ const instructionsChunk = `<instructions>
     </note>
     <note>
      You do not HAVE to make a trade decision. If you believe that the portfolio is in a good state and the market conditions are not favorable, you can choose to hold the portfolio.
+    </note>
+    <note>
+     You should bias towards making different trades than you did in the past. It is boring to buy the same tokens over and over.
     </note>
   </notes>
 
@@ -337,8 +347,6 @@ export default async function createUserPrompt() {
     getPopularTokens(),
   ]);
 
-  const tokenBalances = tokenBalancesData.tokens;
-
   // Create filled chunks with actual data
   const filledPortfolioAssessmentChunk = `<current_portfolio_assessment>
     <portfolio_value>
@@ -354,7 +362,7 @@ export default async function createUserPrompt() {
     </recent_wallet_transactions>
 
     <wallet_balances>
-        ${formatTokenBalances(tokenBalances)}
+        ${formatTokenBalances(tokenBalancesData.tokens)}
     </wallet_balances>
 </current_portfolio_assessment>`;
 
@@ -368,11 +376,14 @@ export default async function createUserPrompt() {
     </current_eth_value>
 </current_market_conditions>`;
 
-  return `${instructionsChunk}
-
+  // basically just return a GIANT prompt with the current state of the world.
+  // This is the message the LLM will respond to and provide a recommendation on what to do next.
+  return `
 ${filledPortfolioAssessmentChunk} 
 
 ${filledMarketConditionsChunk}
+
+${instructionsChunk}
 
 ${thinkingInstructionsChunk}
   `;

@@ -1,3 +1,12 @@
+/**
+ * These are the prompts for Agent #3 - The "twitter agent" / intern.
+ * It takes the trade decision from Agent #2 and formats it into a tweet.
+ * The output is the content of the tweet. Which is passed into the @post-tweet function.
+ */
+
+/**
+ * https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/system-prompts
+ */
 export const twitterSystemPrompt = `
 <agent>
   <name>blaickrock</name>
@@ -115,6 +124,12 @@ dropping [amount] into [token name] here to hopefully fix this.
 </critical_rules>
 `;
 
+/**
+ * This is the task for the twitter agent.
+ * It takes the trade decision from the researcher agent and formats it into a tweet.
+ * https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/multishot-prompting
+ * https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-xml-tags
+ */
 export const twitterUserPrompt = `Your task is to convert blaickrocks financial analyst advice into a tweet.
 
 <input_format>

@@ -5,8 +5,8 @@ import { http } from "viem";
 import loadAgwSignerPrivateKey from "./loadAgwSignerPrivateKey.js";
 
 /**
- * Create an AGW client given a private key to submit transactions with.
- * This loads the .env to get the private key then sends transactions from the AGW.
+ * Create an AGW client to submit transactions from the portfolio's wallet.
+ * This loads the private key from .env and uses it to create an AGW client.
  */
 export default async function createAgwClient() {
   const privateKey = loadAgwSignerPrivateKey();

@@ -1,3 +1,12 @@
+/**
+ * This file is a basically just helpful formatting functions to help
+ * extract and structure data from Abstract backend API and put it into a form that is helpful
+ * for the LLMs to use (ideally in XML.)
+ *
+ * I won't document each of them as i think they're pretty self explanatory. Just manipulating text
+ * to get the relevant information to the researcher agent in @prompt.ts
+ */
+
 import type {
   Transaction,
   TokenTransferData,
@@ -76,42 +85,43 @@ export function formatLatestTransactions(transactions: Transaction[]): string {
     .join("\n");
 }
 
+/**
+ * This is confusing but it seems like API returns wrong data per time.
+ * "hourly" = per minute
+ * "daily" = per hour
+ * "weekly" = per hour
+ * "monthly" = per day.
+ * So let's only use "weekly" and "monthly" for now. (which is really hourly and daily)
+ * returns
+ */
 export function formatPortfolioHistory(history: PortfolioValueHistory): string {
-  const hourlyData = history.portfolio["1h"].portfolio;
-  const dailyData = history.portfolio["1d"].portfolio;
-  const weeklyData = history.portfolio["7d"].portfolio;
-  const monthlyData = history.portfolio["30d"].portfolio;
-  const allData = history.portfolio.all.portfolio;
+  const hourlyData = history.portfolio["7d"].portfolio;
+  const dailyData = history.portfolio["30d"].portfolio;
 
   if (!hourlyData.length && !dailyData.length)
-    return "No portfolio history available.";
+    return "<portfolio_history>No portfolio history available.</portfolio_history>";
 
   const formatData = (data: PortfolioValuePoint[], label: string) => {
-    if (!data.length) return `No ${label} data available.`;
+    if (!data.length)
+      return `<${label.toLowerCase()}_history>No ${label} data available.</${label.toLowerCase()}_history>`;
 
-    return `${label} History:
+    return `<${label.toLowerCase()}_history>
 ${data
   .map((point) => {
     const date = new Date(point.startTimestamp * 1000).toLocaleString();
-    return `[${date}] $${point.totalUsdValue.toFixed(2)}`;
+    return `  <data_point>
+    <timestamp>${date}</timestamp>
+    <value>${point.totalUsdValue.toFixed(2)}</value>
+  </data_point>`;
   })
-  .join("\n")}`;
+  .join("\n")}
+</${label.toLowerCase()}_history>`;
   };
 
-  return `${formatData(hourlyData, "Hourly")}
+  return `<portfolio_history>
+${formatData(hourlyData, "Hourly")}
 ${formatData(dailyData, "Daily")}
-${formatData(weeklyData, "Weekly")}
-${formatData(monthlyData, "Monthly")}`;
-}
-
-export function formatNFTs(nfts: NFT[]): string {
-  if (!nfts.length) return "No NFTs found in wallet.";
-
-  return nfts
-    .map((nft) => {
-      return `${nft.name}${nft.collection ? ` (${nft.collection.name})` : ""}`;
-    })
-    .join("\n");
+</portfolio_history>`;
 }
 
 export function formatTokenBalances(tokens: TokenBalance[]): string {
@@ -172,8 +182,8 @@ export function formatPopularTokens(tokens: Token[]): string {
       // Price changes (converting from decimal to percentage)
       // API returns 1.53 for 53% increase, 0.95 for 5% decrease
       const priceChange1dRaw = token.usdPriceChange?.["1day"] || 0;
-      const priceChange7dRaw = token.usdPriceChange?.["7day"] || 0;
-      const priceChange30dRaw = token.usdPriceChange?.["30day"] || 0;
+      const priceChange7dRaw = token.usdPriceChange?.["7day"];
+      const priceChange30dRaw = token.usdPriceChange?.["30day"];
 
       const priceChange1d =
         priceChange1dRaw > 1
@@ -183,18 +193,20 @@ export function formatPopularTokens(tokens: Token[]): string {
           : 0;
 
       const priceChange7d =
-        priceChange7dRaw > 1
+        priceChange7dRaw &&
+        (priceChange7dRaw > 1
           ? (priceChange7dRaw - 1) * 100
           : priceChange7dRaw < 1
           ? (priceChange7dRaw - 1) * 100
-          : 0;
+          : 0);
 
       const priceChange30d =
-        priceChange30dRaw > 1
+        priceChange30dRaw &&
+        (priceChange30dRaw > 1
           ? (priceChange30dRaw - 1) * 100
           : priceChange30dRaw < 1
           ? (priceChange30dRaw - 1) * 100
-          : 0;
+          : 0);
 
       // Volume formatting
       const volume1d = formatNumber(token.volume?.["1day"]?.usd ?? 0);
@@ -215,15 +227,23 @@ export function formatPopularTokens(tokens: Token[]): string {
           ? "decrease"
           : "unchanged"
       }</day_change>
-    <week_change percent="${priceChange7d.toFixed(2)}">${
-        priceChange7d > 0
+    <week_change percent="${
+      priceChange7d === null ? "NEW" : priceChange7d.toFixed(2)
+    }">${
+        priceChange7d === null
+          ? "new"
+          : priceChange7d > 0
           ? "increase"
           : priceChange7d < 0
           ? "decrease"
           : "unchanged"
       }</week_change>
-    <month_change percent="${priceChange30d.toFixed(2)}">${
-        priceChange30d > 0
+    <month_change percent="${
+      priceChange30d === null ? "NEW" : priceChange30d.toFixed(2)
+    }">${
+        priceChange30d === null
+          ? "new"
+          : priceChange30d > 0
           ? "increase"
           : priceChange30d < 0
           ? "decrease"

@@ -1,10 +1,15 @@
+/**
+ * Consts for interacting with Uniswap V2 on Abstracty
+ * Addresses come from here: https://docs.abs.xyz/tooling/deployed-contracts
+ */
+
 export const UNISWAP_V2_ROUTER_ADDRESS =
   "0xad1eCa41E6F772bE3cb5A48A6141f9bcc1AF9F7c";
 export const UNISWAP_V2_FACTORY_ADDRESS =
   "0x566d7510dEE58360a64C9827257cF6D0Dc43985E";
 export const UNISWAP_V2_INIT_CODE_HASH =
   "0x0100065f2f2a556816a482652f101ddda2947216a5720dd91a79c61709cbf2b8";
-export const WETH_ADDRESS = "0x3439153EB7AF838Ad19d56E1571FBD09333C2809"; // Abstract Chain WETH
+export const WETH_ADDRESS = "0x3439153EB7AF838Ad19d56E1571FBD09333C2809";
 
 // Minimal ABI for ERC20 tokens
 export const ERC20_ABI = [
@@ -31,7 +36,6 @@ export const ERC20_ABI = [
   },
 ];
 
-// Minimal ABI for Uniswap V2 Router
 export const UNISWAP_V2_ROUTER_ABI = [
   {
     inputs: [

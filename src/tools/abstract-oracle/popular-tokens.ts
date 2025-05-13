@@ -86,8 +86,10 @@ export async function getPopularTokens() {
     `${ABSTRACT_API_ENDPOINT}/oracle/list/token?type=popular`
   );
   const data = await response.json();
+
+  // Gotta be kinda careful here to not get sus tokens back
   return data.tokens.filter(
-    (token: Token) => token.contractVerified && !token.isSpam
+    (token: Token) => !token.isSpam
     // && (token.verificationStatus === "vetted" ||
     //   token.verificationStatus === "okay")
   );

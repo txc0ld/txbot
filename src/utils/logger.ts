@@ -8,6 +8,10 @@ export enum LogLevel {
   ERROR = "ERROR",
 }
 
+/**
+ * This is not used in the current implementation, but I'm keeping it here for now.
+ * It was going to be used to log stuff but it just made the code messy.
+ */
 class Logger {
   private logStream: NodeJS.WritableStream;
   private consoleStream: NodeJS.WritableStream;

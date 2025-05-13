@@ -89,6 +89,9 @@ interface TransactionsResponse {
 /**
  * Get the latest transactions for a wallet from the Abstract Portal API.
  * Returns an array of transactions.
+ * This is used to inform the researcher agent about the latest transactions on the wallet.
+ * So that it doesn't get stuck in a loop of doing the same thing over and over.
+ * Although it still kinda does that lmao
  */
 export const getLatestWalletTransactionsTool = createTool({
   description:

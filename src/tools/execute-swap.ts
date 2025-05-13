@@ -14,6 +14,8 @@ import publicClient from "../lib/viemPublicClient.js";
 /**
  * Execute a swap on Uniswap V2.
  * Returns the transaction hash of the swap.
+ * This tool is used by agent #2, the "trader" or "executor agent".
+ * It takes the trade decision from the researcher agent and executes the swap on-chain.
  */
 export const executeSwapTool = createTool({
   description: "Execute a swap on Uniswap.",
@@ -29,14 +31,25 @@ export const executeSwapTool = createTool({
       `Executing ${swapType} swap for ${amount} of token ${tokenContract}`
     );
 
+    // Create AGW client to submit the tx to execute the swap on-chain.
     const agwClient = await createAgwClient();
+
+    // Set a deadline for the swap to be executed (20 minutes from now)
     const deadline = BigInt(Math.floor(Date.now() / 1000) + 60 * 20);
+
+    // Try save some gas in the account by not spending the full balance.
     const GAS_RESERVE = parseEther("0.00005");
+
+    // Parse the amount of ETH to spend on the swap (value field)
+    // Calculate the amount of ETH to spend on the swap (value field)
     const parsedAmount = parseEther(ethAmount.toString());
     const value =
       parsedAmount <= GAS_RESERVE ? BigInt(0) : parsedAmount - GAS_RESERVE;
+
+    // Parse the amount of tokens to swap (amount field)
     const amountInWei = parseEther(amount.toString());
 
+    // Calculate the amount of tokens to receive (amountOutMin)
     const slippageTolerance = 0.05; // 5%
     const amountOutMin =
       swapType === "buy"
@@ -47,6 +60,7 @@ export const executeSwapTool = createTool({
           (amountInWei * BigInt(Math.floor(slippageTolerance * 100))) /
             BigInt(100);
 
+    // Execute the swap to buy or sell the token.
     if (swapType === "buy") {
       // Buy: ETH -> Token, no approval needed
       const txHash = await agwClient.writeContract({
@@ -63,13 +77,14 @@ export const executeSwapTool = createTool({
         chain,
       });
 
+      // Wait for the tx to be mined in case agent decides to do multiple trades in same run.
       await publicClient.waitForTransactionReceipt({
         hash: txHash,
       });
 
       return txHash;
     } else {
-      // Sell: Token -> ETH, requires approval first
+      // Sell: Token -> ETH, requires approval first. AGW supports batching which we use here.
       const txHash = await agwClient.sendTransactionBatch({
         calls: [
           // 1. Approve tokens for router
@@ -89,7 +104,7 @@ export const executeSwapTool = createTool({
               functionName: "swapExactTokensForETH",
               args: [
                 amountInWei,
-                BigInt(0), // TODO bad idea
+                BigInt(0), // TODO very bad idea, but works for now.
                 [tokenContract, WETH_ADDRESS],
                 agwClient.account.address,
                 deadline,
@@ -99,6 +114,7 @@ export const executeSwapTool = createTool({
         ],
       });
 
+      // Wait for the tx to be mined in case agent decides to do multiple trades in same run.
       await publicClient.waitForTransactionReceipt({
         hash: txHash,
       });

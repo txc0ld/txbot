@@ -9,6 +9,9 @@ import { createTool } from "../utils/tool-wrapper.js";
 import { parseEther } from "viem";
 
 /**
+ * Originally, the agent was going to be able to play different games on Abstract in addition to trading.
+ * For now I have reduced the scope, but kept this logic here in casse we want to revisit..
+ *
  * Play a game of Koala Koin Toss.
  * Returns the transaction hash of the bet.
  */

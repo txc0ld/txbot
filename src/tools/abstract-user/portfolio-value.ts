@@ -11,6 +11,7 @@ interface PortfolioValue {
 /**
  * Get the total portfolio value for a wallet from the Abstract Portal API.
  * Returns the total value and the value of the portfolio excluding spam tokens.
+ * This is used to inform the researcher agent about the portfolio's current value.
  */
 export const getPortfolioValueTool = createTool({
   description:

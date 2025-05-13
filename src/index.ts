@@ -1,6 +1,6 @@
 import { streamText } from "ai";
 import dotenv from "dotenv";
-import { mkdir } from "fs/promises";
+import { mkdir, writeFile } from "fs/promises";
 import { join } from "path";
 import { openai } from "@ai-sdk/openai";
 import { CoreMessage } from "ai";
@@ -105,7 +105,15 @@ async function main() {
   try {
     const currentStatePrompt = await createUserPrompt();
 
-    console.log("Current State Prompt:", currentStatePrompt);
+    // Write the prompt to a file for inspection with timestamp
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+    const promptFilePath = join(
+      process.cwd(),
+      "logs",
+      `current_state_prompt_${timestamp}.txt`
+    );
+    await writeFile(promptFilePath, currentStatePrompt, "utf-8");
+    console.log(`Current state prompt written to ${promptFilePath}`);
 
     messages.push({ role: "user", content: currentStatePrompt });
 

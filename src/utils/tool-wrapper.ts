@@ -9,6 +9,11 @@ type ToolConfig<TInput, TOutput> = {
   logPrefix: string;
 };
 
+/**
+ * All of the tools inside tools/ are wrapped in this function.
+ * Most are not actually used as tools anymore, and rather are just loaded upfront and provided as part of the prompt.
+ * However, this acts as a try catch + logging wrapper around any tool execution that we want.
+ */
 export function createTool<TInput, TOutput>({
   description,
   parameters,
