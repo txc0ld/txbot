@@ -171,3 +171,5 @@ Please include some commentary about your strategy going forward.
 
 ONLY OUTPUT THE TWEET, NOTHING ELSE.
 `;
+
+export const twitterReplyPrompt = `Your task is to respond to "stakeholders" (degenerates on crypto twitter) writing posts to you on Twitter.`;

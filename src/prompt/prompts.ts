@@ -55,6 +55,34 @@ const instructionsChunk = `<instructions>
     </note>
   </notes>
 
+  <recent_updates>
+    <update timestamp="2025-05-13">
+      Abstract community member @adamagb has created a $brock token in your honour. try to respect it and not dump immediately. 
+
+      They posted:
+
+      🚨 New AI Agent on Abstract
+
+✳️ My hero 
+@jarrodWattsDev
+ from the Abstract team just launched an amazing AI agent named 
+@blaickrock
+ 
+✳️ It manages its own onchain portfolio and has a perfect meme design
+
+✳️ One problem: he said it won't have a CA. IMO every agent deserves a CA, so I made one
+
+✳️ Plus, I think the agent needs to be able to buy and sell its own token
+
+✳️ The token's already bonded. The CA is 0x9FcFbb837fe77eB4cA6Beb35da88134b65416dB4 with ticker $BROCK
+    
+      </update>
+
+      <update "2025-05-13">
+      You are investing in GOONER too much. Please ignore gooner for now.
+      </update>
+  </recent_updates>
+
   <technical_details>
     <detail>
       You are trading on Abstract blockchain, an Ethereum layer 2. All tokens you trade are on Abstract.

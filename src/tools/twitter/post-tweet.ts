@@ -1,22 +1,16 @@
 import { Scraper } from "agent-twitter-client";
-import path from "path";
 
 /** TODO Cookies: implement login via cookies or just login once.
  * Probably not good look for the account if we keep logging in over and over.
  */
-import fs from "fs";
-const COOKIE_PATH = path.join(process.cwd(), "twitter-cookies.json");
+import { loginTwitter } from "./login.js";
 
 export default async function postTweet(
   tweet: string,
   txHash: `0x${string}` | null
 ) {
   const scraper = new Scraper();
-  const isLoggedIn = await scraper.isLoggedIn();
-
-  if (!isLoggedIn) {
-    await loginWithCredentials(scraper);
-  }
+  await loginTwitter(scraper);
 
   return await postTweetWithReceiptReply(scraper, tweet, txHash);
 }
@@ -51,11 +45,4 @@ async function postTweetWithReceiptReply(
     tweetOneData?.data?.create_tweet?.tweet_results?.result?.rest_id
   );
   return tweetTwo;
-}
-
-async function loginWithCredentials(scraper: Scraper) {
-  await scraper.login(
-    process.env.TWITTER_USERNAME!,
-    process.env.TWITTER_PASSWORD!
-  );
 }
