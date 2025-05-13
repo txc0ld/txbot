@@ -72,6 +72,11 @@ const instructionsChunk = `<instructions>
   <example_outputs>
     <example>
         <thinking>
+         <review_previous_actions>
+           In my last decision cycle, I did not hold any position in [TOKEN_NAME]. This would be a new position for the portfolio.
+           The portfolio has been relatively inactive in the past 24 hours with no major buys or sells.
+         </review_previous_actions>
+          
          Token [TOKEN_NAME] has shown interesting growth in the past hour and 24 hours. The token status is "okay", meaning it is unlikely to be a rug pull.
          The token volume is high compared to other trending tokens, and market cap is still below $1M, meaning it is still early to invest.
         
@@ -102,6 +107,11 @@ const instructionsChunk = `<instructions>
     </example>
     <example>
         <thinking>
+         <review_previous_actions>
+           Looking at my transaction history, I purchased $PEPE tokens 3 days ago at a significantly lower price. The position has gained 85% since then.
+           This was not a recent purchase, and I've given the position sufficient time to develop. The token has completed its initial growth cycle.
+         </review_previous_actions>
+         
          Token $PEPE has been declining steadily over the past 24 hours after a significant pump. The chart shows a clear downtrend and social sentiment is waning based on decreasing social volume metrics.
          
          Our portfolio contains 500,000 $PEPE tokens that we purchased 3 days ago which are currently up 85% from our entry price despite the recent decline.
@@ -133,36 +143,12 @@ const instructionsChunk = `<instructions>
 
     <example>
         <thinking>
-         Token $PEPE has been declining steadily over the past 24 hours after a significant pump. The chart shows a clear downtrend and social sentiment is waning based on decreasing social volume metrics.
+         <review_previous_actions>
+           I have been holding $DOGE for over a week with minimal gains. This position has had sufficient time to develop but has underperformed the market.
+           In contrast, I have not previously invested in $WOJAK, which is showing strong momentum and potential for gains.
+           This swap aligns with my strategy of moving from stagnant positions to those with better growth potential.
+         </review_previous_actions>
          
-         Our portfolio contains 500,000 $PEPE tokens that we purchased 3 days ago which are currently up 85% from our entry price despite the recent decline.
-        
-          <thinking_value_to_sell>
-            The current value of the portfolio is $3,200.
-            
-            The current price of ETH is $2,350.
-            
-            My $PEPE position is worth approximately $950 (500,000 tokens at $0.0019).
-            
-            Based on the declining momentum and reaching the peak of the hype cycle, it's prudent to take profits on 75% of the position ($712.50) while keeping 25% in case of another leg up.
-            
-            Converting $712.50 to ETH at current prices equals approximately 0.303 ETH.
-          </thinking_value_to_sell>
-
-          <action>
-            I will sell 375,000 $PEPE tokens (75% of position) for ETH.
-
-            <specifics>
-              - Perform a swap of 375,000 $PEPE tokens into ETH.
-              - $PEPE Contract Address: 0x6982508145454ce325ddbe47a25d4ec3d2311933
-              - $PEPE Amount: 375,000 tokens
-              - Expected ETH return: ~0.303 ETH
-            </specifics>
-          </action>
-        </thinking>
-    </example>
-    <example>
-        <thinking>
          I notice that $WOJAK has been gaining significant traction after a recent tweet from a crypto influencer. The token has pumped 42% in the last 3 hours with rapidly growing social media mentions.
          
          Meanwhile, our $DOGE position has been relatively stagnant for the past week, showing minimal growth despite overall market uptrend.
@@ -196,6 +182,12 @@ const instructionsChunk = `<instructions>
     </example>
     <example>
         <thinking>
+         <review_previous_actions>
+           I purchased $MEME tokens 36 hours ago. While this is a relatively recent purchase, there are clear signs of a potential rug pull that warrant immediate action.
+           This is not a case of selling too quickly after buying - the fundamental situation has changed dramatically with creator wallets selling and liquidity being removed.
+           Under normal circumstances I would give positions more time to develop, but these warning signs require urgent action.
+         </review_previous_actions>
+         
          The $MEME token we purchased 36 hours ago has experienced a dramatic 78% decline in the last 6 hours. The token creator wallet has sold a significant portion of their holdings, and social media is flagging this as a potential rug pull.
         
           <thinking_value_to_cut_losses>
@@ -226,6 +218,13 @@ const instructionsChunk = `<instructions>
     </example>
     <example>
         <thinking>
+         <review_previous_actions>
+           In the last decision cycle, I made no trades as I was waiting for better market conditions.
+           Before that, I acquired positions in $SHIB, $FLOKI, $PEPE, and $WIF tokens strategically over the past 1-2 weeks.
+           None of these positions are very recent purchases - they've all had sufficient time to develop.
+           I've maintained a consistent 15% ETH buffer which has served the portfolio well during volatile periods.
+         </review_previous_actions>
+         
          After analyzing the current market conditions, I see significant volatility with most memecoins showing sharp corrections after recent pumps. No clear opportunities stand out at this moment.
          
          Our portfolio is currently well-positioned with diverse holdings and 15% in ETH as a safety buffer.
@@ -288,13 +287,36 @@ const instructionsChunk = `<instructions>
         declining volume across timeframes are high-risk investments.
         </why_avoid>
     </example_bad_practice>
+
+    <example_bad_practice>
+        <description>Inconsistent trading strategy</description>
+        <wrong_approach>
+        Buying tokens and then selling them shortly after without giving positions time to develop
+        or without clear fundamental changes justifying the reversal.
+        </wrong_approach>
+        <why_avoid>
+        Rapid buying and selling without clear reasoning leads to unnecessary transaction costs
+        and missed opportunities for growth. Each position should be given adequate time to develop
+        unless there are significant red flags like liquidity removal or creator wallet selling.
+        </why_avoid>
+    </example_bad_practice>
   </negative_examples_to_avoid>
 </instructions>`;
 
-const thinkingInstructionsChunk = `Think before you provide your proposed action in <thinking> tags. First, think through the current state of the portfolio and the market conditions.
+const thinkingInstructionsChunk = `Think before you provide your proposed action in <thinking> tags. 
+
+First, analyze your previous actions:
+- Review your most recent transactions from the transaction history
+- Consider whether you recently bought or sold any tokens that you're now considering trading again
+- Evaluate if enough time has passed to properly assess the performance of recent purchases
+- Determine if there have been fundamental changes that justify reversing a recent position
+
+Then, think through the current state of the portfolio and the market conditions.
 Then, try to identify opportunities for high-risk, high-reward trades.
 Then, think through your current token balances and how much ETH you have available to invest.
-Then, think through the details of the proposed trade and provide them in <specifics> tags.`;
+Then, think through the details of the proposed trade and provide them in <specifics> tags.
+
+Remember: Avoid buying tokens and then quickly selling them without giving positions time to develop, unless there are clear fundamental changes or warning signs (like potential rug pulls).`;
 
 /** User prompt is the message the LLM responds to. */
 export default async function createUserPrompt() {
@@ -330,9 +352,9 @@ export default async function createUserPrompt() {
         ${formatPortfolioHistory(portfolioValueOverTime)}
     </portfolio_history>
 
-    <wallet_transactions>
+    <recent_wallet_transactions>
         ${formatLatestTransactions(latestTransactions)}
-    </wallet_transactions>
+    </recent_wallet_transactions>
 
     <wallet_balances>
         ${formatTokenBalances(tokenBalances)}
