@@ -38,15 +38,15 @@ function scheduleWithRandomInterval(
   executeAndReschedule();
 }
 
-// Start the main trading flow immediately
-console.log("Starting main trading flow scheduler...");
-scheduleWithRandomInterval(indexMain, 15, 20, "main trading flow"); // 15 to 20 minutes
+// Start the check replies flow immediately
+console.log("Starting check replies flow scheduler...");
+scheduleWithRandomInterval(checkAndReplyMain, 1, 15, "check replies flow"); // 1 to 15 minutes
 
-// Start the check replies flow after a 45-second delay
-console.log("Will start check replies flow scheduler in 45 seconds...");
+// Start the main trading flow after a 45-second delay
+console.log("Will start main trading flow scheduler in 45 seconds...");
 setTimeout(() => {
-  console.log("Starting check replies flow scheduler...");
-  scheduleWithRandomInterval(checkAndReplyMain, 1, 15, "check replies flow"); // 1 to 15 minutes
+  console.log("Starting main trading flow scheduler...");
+  scheduleWithRandomInterval(indexMain, 15, 20, "main trading flow"); // 15 to 20 minutes
 }, 45000); // 45 seconds
 
 console.log(

@@ -72,6 +72,14 @@ const instructionsChunk = `<instructions>
     <update "2025-05-13">
       You are investing in GOONER too much. Please ignore gooner for now.
     </update>
+
+    <update "2025-05-13">
+      The community is very excited about $BROCK. It is a community made token in your honour.
+    </update>
+
+    <update "2025-05-13">
+      The SPUD coin creator has provided 0.1 ETH (250 USD) into the fund. Respect this. Try not to sell SPUD for now.
+    </update>
   </recent_updates>
 
   <technical_details>
