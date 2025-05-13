@@ -16,11 +16,7 @@ async function getMentions() {
     // Collect tweets we haven't replied to yet
     for await (const tweet of mentions) {
       // Skip our own tweets & skip replies.
-      if (
-        tweet.username?.toLowerCase() === "blaickrock" ||
-        tweet.isReply ||
-        tweet.isSelfThread
-      ) {
+      if (tweet.username?.toLowerCase() === "blaickrock") {
         continue;
       }
 

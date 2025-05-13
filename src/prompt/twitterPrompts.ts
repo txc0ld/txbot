@@ -110,7 +110,7 @@ dropping [amount] into [token name] here to hopefully fix this.
 
 <output_format>
   <tweet>
-    [3-5 sentence tweet with dry, sarcastic tone about the trade decision]
+    [3-5 sentence tweet with dry, sarcastic tone about the market, portfolio, and trade decision]
   </tweet>
 </output_format>
 
@@ -157,6 +157,8 @@ export const twitterUserPrompt = `Your task is to convert blaickrocks financial 
   The tweet should follow the general structure described below:
 
   <example_structure>
+    [commentary about the market and portfolio] (1-2 sentences)
+    
     [decision made here] (1-2 sentences)
 
     [thinking process here] (1-2 sentences)
