@@ -91,6 +91,44 @@ Your Tweet:
       process.stdout.write(delta);
     }
 
+    // Add logic to handle tweets that are too long
+    if (tweetContent.length > 280) {
+      console.log(
+        `\nTweet too long (${tweetContent.length} chars). Shortening...`
+      );
+
+      // Simple shortening logic:
+      // 1. First try to remove any URLs if they exist at the end
+      let shortened = tweetContent.replace(/https?:\/\/\S+$/, "").trim();
+
+      // 2. If still too long, truncate and add ellipsis
+      if (shortened.length > 277) {
+        // Find a good breaking point - preferably at end of a sentence
+        const lastPeriod = shortened.lastIndexOf(".", 270);
+        const lastQuestion = shortened.lastIndexOf("?", 270);
+        const lastExclamation = shortened.lastIndexOf("!", 270);
+
+        let breakPoint = Math.max(lastPeriod, lastQuestion, lastExclamation);
+
+        // If no good sentence break found, try breaking at a space
+        if (breakPoint < 0 || breakPoint < 240) {
+          breakPoint = shortened.lastIndexOf(" ", 277);
+        }
+
+        // If still no good break point, just truncate
+        if (breakPoint > 0) {
+          shortened = shortened.substring(0, breakPoint + 1) + "...";
+        } else {
+          shortened = shortened.substring(0, 277) + "...";
+        }
+      }
+
+      console.log(
+        `\nShortened tweet (${shortened.length} chars):\n${shortened}`
+      );
+      tweetContent = shortened;
+    }
+
     console.log("\nTweet generated:");
     console.log(tweetContent);
 
@@ -162,18 +200,14 @@ async function main() {
 }
 
 // Run main function if this is the entry point
-if (import.meta.url === process.argv[1]) {
-  main().catch((error) => {
-    console.error("Fatal error in main process:", error);
-    if (error instanceof Error) {
-      console.error("Error details:", {
-        message: error.message,
-        stack: error.stack,
-        name: error.name,
-      });
-    }
-    process.exit(1); // Exit with error code
-  });
-}
-
-export { main };
+main().catch((error) => {
+  console.error("Fatal error in main process:", error);
+  if (error instanceof Error) {
+    console.error("Error details:", {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+    });
+  }
+  process.exit(1); // Exit with error code
+});

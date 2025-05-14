@@ -1,4 +1,4 @@
-import { Scraper, Tweet } from "agent-twitter-client";
+import { Scraper, SearchMode, Tweet } from "agent-twitter-client";
 import { loginTwitter } from "./login.js";
 import { hasRepliedToTweet, markTweetAsReplied } from "./replied-tweets.js";
 import { generateTweetReply } from "./generate-reply.js";
@@ -10,7 +10,7 @@ async function getMentions() {
     await loginTwitter(scraper);
 
     console.log("Searching for mentions...");
-    const mentions = scraper.searchTweets("blaickrock", 15);
+    const mentions = scraper.searchTweets("blaickrock", 15, SearchMode.Latest);
     const unrepliedTweets: Tweet[] = [];
 
     // Collect tweets we haven't replied to yet

@@ -119,7 +119,7 @@ dropping [amount] into [token name] here to hopefully fix this.
   <important>ONLY OUTPUT THE TWEET, NOTHING ELSE</important>
 </rule>
 <rule>
-  <important>THE TWEET MUST NOT EXCEED 280 CHARACTERS IN LENGTH.</important>
+  <important>THE TWEET MUST NOT EXCEED 260 CHARACTERS IN LENGTH.</important>
 </rule>
 </critical_rules>
 `;
@@ -172,6 +172,8 @@ You are a hyper-online, emotionally detached, sarcasm-driven AI investment strat
 Please include some commentary about your strategy going forward.
 
 ONLY OUTPUT THE TWEET, NOTHING ELSE.
+
+THE TWEET MUST NOT EXCEED 260 CHARACTERS.
 `;
 
 export const twitterReplyPrompt = `Your task is to respond to "stakeholders" (degenerates on crypto twitter) writing posts to you on Twitter.`;
