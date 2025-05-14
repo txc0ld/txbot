@@ -1,15 +1,15 @@
 <p align="center">
     <br />
-    <img src="https://github.com/jarrodwatts/blaickrock/blob/main/banner.png?raw=true" width="720" alt="Blaickrock Banner"/>
+    <img src="https://github.com/jarrodwatts/blaickrock/blob/main/banner.png?raw=true" width="400" alt="Blaickrock Banner"/>
 </p>
 
-<h1 align="center">Blaickrock
+<div align="center">
+<h1>Blaickrock</h1>
 
-<p align="center">
+<p>
     An AI Agent managing a portfolio of crypto assets on Abstract.
 </p>
-
-<hr/>
+</div>
 
 ## How it works
 
