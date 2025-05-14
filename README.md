@@ -1,6 +1,6 @@
 <p align="center">
     <br />
-    <img src="https://raw.githubusercontent.com/jarrodwatts/blaickrock/refs/heads/main/banner.png" width="720" alt="Blaickrock Banner"/>
+    <img src="https://github.com/jarrodwatts/blaickrock/blob/main/banner.png?raw=true" width="720" alt="Blaickrock Banner"/>
 </p>
 
 <h1 align="center">Blaickrock
@@ -23,7 +23,7 @@ This codebase uses three agents to perform a three step process:
 
 As a side quest, the Blaickrock twitter account also replies to users who mention it on Twitter.
 
-![Blaickrock Agent Diagram](https://raw.githubusercontent.com/jarrodwatts/blaickrock/refs/heads/main/blaickrock-agent-flow.png)
+![Blaickrock Agent Diagram](https://github.com/jarrodwatts/blaickrock/blob/main/blaickrock-agent-flow.png?raw=true)
 
 ### Key Code Files
 
