@@ -31,8 +31,8 @@ The code is a little messy, but here are the key files:
 
 **Prompts**:
 
-- [executorPrompt.ts](./src/prompt/prompt.ts)
-- [prompt.ts](./src/prompt/executorPrompt.ts)
+- [executorPrompt.ts](./src/prompt/prompts.ts)
+- [prompt.ts](./src/prompt/executorPrompts.ts)
 - [twitterPrompt.ts](./src/prompt/twitterPrompts.ts) & [tweetReplyPrompts.ts](./src/prompt/tweetReplyPrompts.ts)
 
 **Tools**:
