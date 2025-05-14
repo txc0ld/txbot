@@ -1,6 +1,6 @@
 <p align="center">
     <br />
-    <img src="https://github.com/jarrodwatts/blaickrock/blob/main/banner.png?raw=true" width="400" alt="Blaickrock Banner"/>
+    <img src="https://github.com/jarrodwatts/blaickrock/blob/main/banner.png?raw=true" width="500" alt="Blaickrock Banner"/>
 </p>
 
 <div align="center">
