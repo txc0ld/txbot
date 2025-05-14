@@ -1,5 +1,5 @@
 {
-  "name": "aibster",
+  "name": "blaickrock",
   "version": "1.0.0",
   "description": "Abstract AI Agent",
   "main": "dist/index.js",
@@ -9,7 +9,8 @@
     "start": "pnpm run build && node dist/index.js",
     "dev": "tsx watch src/index.ts",
     "check-mentions": "tsx src/check-and-reply.ts",
-    "start-scheduler": "pnpm run build && node dist/start.js"
+    "scheduler": "pnpm run build && node dist/scheduler.js",
+    "daemon": "pnpm run build && nohup node dist/scheduler.js > blaickrock.log 2>&1 &"
   },
   "keywords": [],
   "author": "",
