@@ -28,14 +28,19 @@ export async function loginTwitter(scraper?: Scraper) {
     }
 
     // If not logged in, try to login with credentials
-    if (!process.env.TWITTER_USERNAME || !process.env.TWITTER_PASSWORD) {
+    if (
+      !process.env.TWITTER_USERNAME ||
+      !process.env.TWITTER_PASSWORD ||
+      !process.env.TWITTER_EMAIL
+    ) {
       throw new Error("Twitter credentials not found in environment variables");
     }
 
     console.log("Logging in with credentials...");
     await scraper.login(
       process.env.TWITTER_USERNAME,
-      process.env.TWITTER_PASSWORD
+      process.env.TWITTER_PASSWORD,
+      process.env.TWITTER_EMAIL
     );
 
     // Save cookies for future use
