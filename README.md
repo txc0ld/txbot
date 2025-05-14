@@ -43,7 +43,11 @@ Only one tool is actually used, despite many being available (originally more we
 
 ## Running Locally
 
-1. Install dependencies: `pnpm install`
+1. Install dependencies:
+
+   ```bash
+   pnpm install
+   ```
 
 2. Create a `.env` file in the root of the project and add environment variables:
 
@@ -51,6 +55,13 @@ See [.env.example](.env.example) for the required variables.
 
 Please be careful. These are sensitive values. Only proceed if you understand the risks.
 
-3. Run the main three-step flow: `pnpm run start`.
+3. Run the main three-step flow:
 
-4. Run the reply logic: `pnpm run check-mentions`.
+   ```bash
+   pnpm run start
+   ```
+
+4. Run the reply logic:
+   ```bash
+   pnpm run check-mentions
+   ```
