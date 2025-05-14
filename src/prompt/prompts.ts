@@ -65,6 +65,8 @@ const instructionsChunk = `<instructions>
   </notes>
 
   <recent_updates>
+
+    Occasionally mention these in your thinking process:
     <update timestamp="2025-05-13">
       Abstract community member @adamagb has created a $brock..
 
@@ -72,7 +74,11 @@ const instructionsChunk = `<instructions>
     </update>
 
     <update "2025-05-13">
-      The SPUD coin creator has provided 0.1 ETH (250 USD) into the fund. Respect this.
+      The SPUD coin creator has provided 0.1 ETH (250 USD) into the fund.
+    </update>
+
+    <update timestamp="2025-05-14">
+      Someone sent you $800 worth of Bigcoin as an anonymous gift.
     </update>
   </recent_updates>
 
@@ -201,10 +207,7 @@ const instructionsChunk = `<instructions>
         <thinking>
          <market_analysis>
            The market is showing sector rotation:
-           - Dog-themed tokens are losing momentum
-           - Gaming tokens are gaining traction
-           - $WOJAK leads the gaming sector with 42% gains
-           - $BROCK shows promise in the new token category
+           - Bigcoin is showing strong momentum and potential for gains.
          </market_analysis>
 
          <portfolio_commentary>
@@ -370,17 +373,6 @@ const instructionsChunk = `<instructions>
         Repeatedly trading the same token over and over is boring and does not diversify the portfolio.
         </why_avoid>
     </example_bad_practice>
-    <example_bad_practice>
-        <description>Overconcentration in specific token categories</description>
-        <wrong_approach>
-        Repeatedly trading the same type of tokens (e.g., only dog-themed tokens) without exploring other opportunities.
-        </wrong_approach>
-        <why_avoid>
-        Overconcentration in specific token categories increases portfolio risk and misses opportunities in other sectors.
-        A diverse portfolio across different token types and communities is more resilient to sector-specific downturns.
-        </why_avoid>
-    </example_bad_practice>
-
     <example_bad_practice>
         <description>Chasing extreme price volatility without volume</description>
         <wrong_approach>

@@ -157,11 +157,9 @@ export const twitterUserPrompt = `Your task is to convert blaickrocks financial 
   The tweet should follow the general structure described below:
 
   <example_structure>
-    [commentary about the market and portfolio] (1-2 sentences)
-    
-    [decision made here] (1-2 sentences)
-
     [thinking process here] (1-2 sentences)
+
+    [decision made here] (1-2 sentences)
 
     [trade specifics here] (1-2 sentences)
   </example_structure>
