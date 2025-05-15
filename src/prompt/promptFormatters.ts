@@ -14,7 +14,6 @@ import type {
   SwapData,
 } from "../tools/abstract-user/latest-wallet-transactions.js";
 import type { PortfolioValuePoint } from "../tools/abstract-user/portfolio-value-over-time.js";
-import type { NFT } from "../tools/abstract-user/wallet-owned-nfts.js";
 import type { TokenBalance } from "../tools/abstract-user/wallet-token-balances.js";
 import type { Token } from "../tools/abstract-oracle/popular-tokens.js";
 import type { PortfolioValueHistory } from "../tools/abstract-user/portfolio-value-over-time.js";
@@ -26,61 +25,25 @@ export function formatLatestTransactions(transactions: Transaction[]): string {
   return transactions
     .map((tx) => {
       const date = new Date(tx.timestamp).toLocaleString();
-      let type = "";
-      let details = "";
+      let description = "";
 
       if (tx.type === "token_transfer") {
-        type = "Token Transfer";
         const transferData = tx.data as TokenTransferData;
-        details = `
-          <amount>${transferData.amount.decimal} ${transferData.token.symbol}</amount>
-          <token>${transferData.token.name} (${transferData.token.contract})</token>
-          <decimals>${transferData.token.decimals}</decimals>
-          <tx_hash>${transferData.txHash}</tx_hash>`;
+        description = `Received ${transferData.amount.decimal} ${transferData.token.symbol}`;
       } else if (tx.type === "swap") {
-        type = "Swap";
         const swapData = tx.data as SwapData;
-        details = `
-          <from_token>
-            <symbol>${swapData.fromToken.token.symbol}</symbol>
-            <name>${swapData.fromToken.token.name}</name>
-            <contract>${swapData.fromToken.token.contract}</contract>
-            <amount>${swapData.fromToken.amount.decimal}</amount>
-            <usd_value>${swapData.fromToken.amount.usd || "0"}</usd_value>
-          </from_token>
-          <to_token>
-            <symbol>${swapData.toToken.token.symbol}</symbol>
-            <name>${swapData.toToken.token.name}</name>
-            <contract>${swapData.toToken.token.contract}</contract>
-            <amount>${swapData.toToken.amount.decimal}</amount>
-            <usd_value>${swapData.toToken.amount.usd || "0"}</usd_value>
-          </to_token>
-          <tx_hash>${swapData.fromToken.txHash}</tx_hash>`;
+        description = `Swapped ${swapData.fromToken.amount.decimal || ""} ${
+          swapData.fromToken.token.symbol
+        } for ${swapData.toToken.amount.decimal || ""} ${
+          swapData.toToken.token.symbol
+        }`;
       } else {
-        type = "Contract Call";
         const callData = tx.data as ContractCallData;
-        details = `
-          <function>${callData.functionSelector || "Unknown"}</function>
-          <value>${callData.value || "0"} ETH</value>
-          <gas_price>${callData.gasPrice || "Unknown"}</gas_price>
-          <tx_hash>${callData.txHash}</tx_hash>`;
+        const contractName = tx.contractDetails?.name || "unknown contract";
+        description = `Called contract ${contractName}`;
       }
 
-      return `<transaction type="${type}" timestamp="${date}">
-        <from_address>${tx.fromAddress}</from_address>
-        <to_address>${tx.toAddress}</to_address>
-        ${details}
-        ${
-          tx.contractDetails
-            ? `<contract>${tx.contractDetails.name} (${tx.contractDetails.contractAddress})</contract>`
-            : ""
-        }
-        ${
-          tx.callDetails
-            ? `<call>${tx.callDetails.name} (${tx.callDetails.selector})</call>`
-            : ""
-        }
-</transaction>`;
+      return `<transaction timestamp="${date}">${description}</transaction>`;
     })
     .join("\n");
 }

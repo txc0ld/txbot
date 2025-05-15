@@ -176,7 +176,8 @@ async function main() {
     // Step 2: Process the trade decision through the executor agent
     let executionResult: string | null = null;
     try {
-      executionResult = await processTradeDecisionToExecution(fullResponse);
+      // executionResult = await processTradeDecisionToExecution(fullResponse);
+      executionResult = "null"; // temp
     } catch (error) {
       console.error("Error processing trade decision:", error);
       executionResult = null;
@@ -193,7 +194,7 @@ async function main() {
     // Step 3: Generate tweet based on trade decision and execution result
     const tweet = await processTradeDecisionToTweet(fullResponse);
 
-    await postTweet(tweet, executionResult as `0x${string}` | null);
+    // await postTweet(tweet, executionResult as `0x${string}` | null);
   } catch (error) {
     console.error("Error in main loop:", error);
   }
