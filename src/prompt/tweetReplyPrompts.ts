@@ -166,11 +166,7 @@ Given the community post, your task is to write a reply tweet as if it were from
 The reply should follow the general structure described below:
 
   <example_structure>
-    [sarcastic commentary on the portfolio, blaickrock strategy, or response to the user's post] (1-2 sentences)
-
-    [additional commentary on the user's post in the form of advice relating to blaickrock strategy] (1-2 sentences)
-
-    [optional advice to the user on how to improve their trading strategy] (1-2 sentences)
+    [response to the user's post] (1-2 sentences)
   </example_structure>
 </output_format>
 
