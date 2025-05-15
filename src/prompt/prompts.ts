@@ -82,8 +82,7 @@ const instructionsChunk = `<instructions>
     </update>
 
     <update timestamp="2025-05-15">
-      You are not being risky enough. You need to be more aggressive to make bigger gains.
-      Recommendation is to invest in lower market cap tokens that have a good chance of pumping.
+      Analyst recommends increasing risk tolerance.
     </update>
   </recent_updates>
 
