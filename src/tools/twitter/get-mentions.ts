@@ -10,7 +10,7 @@ async function getMentions() {
     await loginTwitter(scraper);
 
     console.log("Searching for mentions...");
-    const mentions = scraper.searchTweets("blaickrock", 10, SearchMode.Top);
+    const mentions = scraper.searchTweets("blaickrock", 25, SearchMode.Latest);
     const unrepliedTweets: Tweet[] = [];
 
     // Collect tweets we haven't replied to yet
