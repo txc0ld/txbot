@@ -78,7 +78,7 @@ interface TransactionData {
 // Type for the parsed transaction data inside the action.data string
 interface ParsedTransactionData {
   chainId: number;
-  to: `string`;
+  to: `0x${string}`;
   value: string;
   data: `0x${string}`;
 }

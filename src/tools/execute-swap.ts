@@ -2,7 +2,7 @@ import { z } from "zod";
 import { createTool } from "../utils/tool-wrapper.js";
 import createAgwClient from "../lib/createAgwClient.js";
 import { chain } from "../const/chain.js";
-import { parseEther, encodeFunctionData, parseUnits, maxUint256 } from "viem";
+import { parseEther, encodeFunctionData, parseUnits, maxUint256, Address } from "viem";
 import {
   UNISWAP_V2_ROUTER_ADDRESS,
   UNISWAP_V2_ROUTER_ABI,
@@ -21,7 +21,7 @@ export const executeSwapTool = createTool({
   description: "Execute a swap on Uniswap.",
   parameters: z.object({
     swapType: z.enum(["buy", "sell"]),
-    tokenContract: z.string(),
+    tokenContract: z.string().transform((val): Address => val as Address),
     amount: z.number(),
     ethAmount: z.number(),
   }),
@@ -50,7 +50,7 @@ export const executeSwapTool = createTool({
     const amountInWei = parseEther(amount.toString());
 
     // Calculate the amount of tokens to receive (amountOutMin)
-    const slippageTolerance = 0.05; // 5%
+    const slippageTolerance = 0.15; // 15% slippage tolerance for aggressive trading
     const amountOutMin =
       swapType === "buy"
         ? amountInWei -

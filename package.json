@@ -23,7 +23,7 @@
     "agent-twitter-client": "^0.0.18",
     "ai": "^4.3.13",
     "dotenv": "^16.5.0",
-    "thirdweb": "^5.97.1",
+    "thirdweb": "^5.99.2",
     "viem": "2.x",
     "zod": "^3.24.4"
   },

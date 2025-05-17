@@ -183,7 +183,7 @@ async function main() {
     }
 
     if (
-      executionResult?.includes("CANNOT_EXECUTE") ||
+      executionResult?.includes("CANNOT_EXECUTE") &&
       !executionResult?.startsWith("0x")
     ) {
       console.log("Cannot execute trade decision");
