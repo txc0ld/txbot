@@ -10,7 +10,8 @@
     "dev": "tsx watch src/index.ts",
     "check-mentions": "tsx src/check-and-reply.ts",
     "scheduler": "pnpm run build && node dist/scheduler.js",
-    "daemon": "pnpm run build && nohup node dist/scheduler.js > blaickrock.log 2>&1 &"
+    "daemon": "pnpm run build && nohup node dist/scheduler.js > blaickrock.log 2>&1 &",
+    "api": "pnpm run build && node dist/api/server.js"
   },
   "keywords": [],
   "author": "",
@@ -22,14 +23,24 @@
     "@tanstack/react-query": "^5.75.2",
     "agent-twitter-client": "^0.0.18",
     "ai": "^4.3.13",
+    "cors": "^2.8.5",
     "dotenv": "^16.5.0",
+    "express": "^4.18.3",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
     "thirdweb": "^5.99.2",
     "viem": "2.x",
     "zod": "^3.24.4"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.18",
+    "@types/express": "^4.17.22",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/morgan": "^1.9.9",
     "@types/node": "^20.17.40",
+    "@types/ws": "^8.18.1",
     "tsx": "^4.19.4",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "ws": "^8.18.2"
   }
 }
