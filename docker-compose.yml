@@ -7,8 +7,20 @@ services:
     env_file: .env
     volumes:
       - ./logs:/app/logs
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 512M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200m"
+        max-file: "3"
     healthcheck:
       test: ["CMD", "pgrep", "-f", "node"]
       interval: 5m
       timeout: 30s
-      retries: 3 
+      retries: 3
+      start_period: 30s 
