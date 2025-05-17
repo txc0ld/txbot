@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  txbot:
+    build: .
+    restart: always
+    env_file: .env
+    volumes:
+      - ./logs:/app/logs
+    healthcheck:
+      test: ["CMD", "pgrep", "-f", "node"]
+      interval: 5m
+      timeout: 30s
+      retries: 3 
